@@ -6,9 +6,10 @@
              xmlns:model = "clr-namespace:TestingSystem.Model"
              xmlns:view ="clr-namespace:TestingSystem.View"
              xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel"
+               CanBeDismissedByTappingOutsideOfPopup ="False"
                x:Name="popup">
     <Border
-        Padding="0" HeightRequest="400"
+        Padding="0" HeightRequest="300"
            WidthRequest="500"
            Stroke="Transparent"
            BackgroundColor="#FFEAE7EC">
@@ -19,7 +20,7 @@
             <VerticalStackLayout>
                 <Entry Text="{Binding NameTest}" Placeholder ="Название теста"/>
                 <Entry Text="{Binding Category.NameCategory}" Placeholder ="Укажите к какой категории относится данный тест"/>
-                <Button Text="Добавить" Command="{Binding AddCommand}" CommandParameter="{Binding popup}"/>
+                <Button Text="Добавить" Command="{Binding AddCommand}" CommandParameter="{Binding Source={x:Reference popup}}"/>
             </VerticalStackLayout>
             
             

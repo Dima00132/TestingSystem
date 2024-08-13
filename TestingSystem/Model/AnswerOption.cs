@@ -11,6 +11,7 @@ namespace TestingSystem.Model
         [PrimaryKey, AutoIncrement]
         [Column("Id")]
         public int AnswerOptionId { get; set; }
+        public string SomethingAdditional { get; set; }
 
         [Column("QuestionTest_id")]
         [ForeignKey(typeof(QuestionTest))]
@@ -20,6 +21,7 @@ namespace TestingSystem.Model
         {
             Answer = answer;
             IsCorrect = isCorrect;
+            _isSelected = false;
         }
 
         public AnswerOption():this("")
@@ -31,6 +33,9 @@ namespace TestingSystem.Model
 
         [ObservableProperty]
         private bool _isCorrect;
+
+        [ObservableProperty]
+        private bool _isSelected;
 
     }
 }

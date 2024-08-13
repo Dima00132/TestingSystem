@@ -10,6 +10,7 @@ namespace TestingSystem.Model
         [PrimaryKey, AutoIncrement]
         [Column("Id")]
         public int CategoryId { get; set; }
+        public string SomethingAdditional { get; set; }
 
         [Column("test_displayer_id")]
         [ForeignKey(typeof(TestDisplayer))]
@@ -27,6 +28,8 @@ namespace TestingSystem.Model
             NameCategory = nameCategory;
         }
 
-        
+        public Category()
+        {
+        }
     }
 }

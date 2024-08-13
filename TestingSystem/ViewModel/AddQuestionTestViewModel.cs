@@ -71,7 +71,7 @@ namespace TestingSystem.ViewModel
 
         [RelayCommand]  
         
-        public async Task Save()
+        public async Task Save(ContentPage contentPage)
         {
             if (QuestionTests.Count == 0)
             {
@@ -79,11 +79,12 @@ namespace TestingSystem.ViewModel
                 return;
             }
 
-            await _popupService
+             await _popupService
              .ShowPopupAsync<SavingTestViewModel>(onPresenting: viewModel => viewModel.AddTest( QuestionTests, _localDbService, _testDisplayer))
              .ConfigureAwait(false);
-            await _navigationService.NavigateBackAsync();
+            // await _navigationService.NavigateBack();
             
+           // _navigationService.NavigateBack();
         }
 
         public override Task OnNavigatingToAsync(object parameter, object parameterSecond = null)

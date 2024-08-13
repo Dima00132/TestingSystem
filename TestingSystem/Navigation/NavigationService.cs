@@ -147,25 +147,13 @@ namespace TestingSystem.Navigation
             throw new NullReferenceException($"Не найден сервер в {_services.GetType().FullName}");
         }
 
-        public Task NavigateBackAsync()
+        public void NavigateBack()
         {
             if (Navigation.NavigationStack.Count > 1)
             {
-                return Navigation.PopAsync(IsAnimated);
+               Navigation.PopAsync(IsAnimated);
             }
-            throw new InvalidOperationException("No pages to navigate back to!");
         }
 
-        public Task NavigateBackUpdateAsync()
-        {
-            if (Navigation.NavigationStack.Count > 1)
-            {
-                var page = Navigation.NavigationStack[^2];
-                if (page?.BindingContext is ViewModelBase viewModel)
-                    viewModel.OnUpdateAsync();
-                return Navigation.PopAsync(IsAnimated);
-            }
-            throw new InvalidOperationException("No pages to navigate back to!");
-        }
     }
 }

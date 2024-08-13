@@ -4,6 +4,7 @@
              x:Class="TestingSystem.View.AddQuestionTestPage"
              xmlns:model = "clr-namespace:TestingSystem.Model"
              xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel"
+             
              Title="AddQuestionTestPage">
     <Grid ColumnDefinitions="*,500">
         <Grid Grid.Column="0">
@@ -14,7 +15,7 @@
                             <Editor Text="{Binding Question.Question}" 
                                     Placeholder ="Вопрос" 
                                     AutoSize="TextChanges"/>
-                            <CollectionView ItemsSource="{Binding Question.AnswerOptions}">
+                            <CollectionView ItemsSource="{Binding Question.AnswerOptions}" >
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="{x:Type model:AnswerOption}">
                                         <Grid ColumnDefinitions="*,100" ColumnSpacing="5" >

@@ -12,7 +12,7 @@ namespace TestingSystem.Navigation
         Task NavigateToMainPageAsync(object parameter = null);
         Task NavigateByPageAsync<T>(object parameter = null, object parameterSecond = null) where T : Page;
         public Task NavigateByViewModelAsync<T>(object parameter = null) where T : ViewModelBase;
-        Task NavigateBackAsync();
-        Task NavigateBackUpdateAsync();
+        void NavigateBack();
+  
     }
 }

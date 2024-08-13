@@ -52,25 +52,15 @@ namespace TestingSystem.ViewModel
             _testDisplayer.AddCategory(newCategory);
             _testDisplayer.Tests.Add(newTest);
             SaveBb(newCategory, newTest);
-         
-             await _navigationService.NavigateBackAsync();
+            popup.Close();
+            _navigationService.NavigateBack();
         }
 
         private void SaveBb(Category newCategory,Test newTest)
         {
             _localDbService.Create(newCategory);
             _localDbService.Create(newTest);
-            try
-            {
-                _localDbService.Update(_testDisplayer);
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
             _localDbService.Update(_testDisplayer);
-
         }
         public bool CheckName() => !string.IsNullOrEmpty(NameTest);
         

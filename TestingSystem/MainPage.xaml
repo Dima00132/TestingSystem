@@ -7,9 +7,9 @@
              x:Class="TestingSystem.MainPage">
 
     <Grid RowDefinitions ="50,50,*">
-        <Label Grid.Row="0" Text="Test" FontSize="Title" HorizontalOptions="Center"/>
+        <Label Grid.Row="0" Text="Test" FontSize="Title"/>
 
-        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" HorizontalOptions="CenterAndExpand">
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" >
             <SearchBar Grid.Column="0" 
                            x:Name="CompanySearch"
                            Placeholder="Поиск.." HorizontalOptions="StartAndExpand">
@@ -21,31 +21,33 @@
                     </SearchBar.Behaviors>
                 </SearchBar>
 
-            <Picker Grid.Column="1"  Title = "Category" ItemsSource="{Binding TestDisplayer.Category}">
-               
-            </Picker>
-
+            <Picker Grid.Column="1" Margin="-5" Title = "Category" ItemsSource="{Binding Categorys}" SelectedIndex="{Binding CurrentCategory}"/>
+            
             <Button Grid.Column="2" Text="Add" Command="{Binding AddQuestionTestCommand}"/>
 
         </Grid>
      
 
-        <ScrollView Grid.Row="2">
+        <ScrollView Grid.Row="2" Margin="30">
 
             <CollectionView 
                       AbsoluteLayout.LayoutFlags="All"
-                      ItemsSource="{Binding TestDisplayer}" >
+                      ItemsSource="{Binding TestDisplayer.Tests}" >
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="{x:Type model:QuestionTest}">
+                    <DataTemplate x:DataType="{x:Type model:Test}">
                         <Frame>
-                            <Label Grid.Column="0">
-                                <Label.Text>
-                                    <MultiBinding StringFormat="{} {0}  ">
-                                        <Binding Path="NameTest" Mode="TwoWay" />
-
-                                    </MultiBinding>
-                                </Label.Text>
-                            </Label>
+                            <StackLayout>
+                                <Label Text="{Binding NameTest}"/>
+                                <FlyoutBase.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Пройти тест" 
+Command="{Binding Path=TapCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"
+CommandParameter="{Binding .}"/>
+                                    </MenuFlyout>
+                                </FlyoutBase.ContextFlyout>
+                            </StackLayout>
+                            
+                            
                         </Frame>
 
                     </DataTemplate>

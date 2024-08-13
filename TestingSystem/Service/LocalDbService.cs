@@ -16,7 +16,7 @@ namespace TestingSystem.Service
 
     public sealed class LocalDbService: ILocalDbService
     {
-        private const string DB_NAME = "sfGgF.db3";
+        private const string DB_NAME = "sfуwGgF.db3";
         private SQLiteConnection _connection;
         private const SQLiteOpenFlags Flags =
             SQLiteOpenFlags.ReadWrite |

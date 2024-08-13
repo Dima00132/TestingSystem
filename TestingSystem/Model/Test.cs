@@ -18,6 +18,7 @@ namespace TestingSystem.Model
         [PrimaryKey, AutoIncrement]
         [Column("Id")]
         public int TestId { get; set; }
+        public string SomethingAdditional { get; set; }
 
         [Column("test_displayer_id")]
         [ForeignKey(typeof(TestDisplayer))]
