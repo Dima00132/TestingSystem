@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using TestingSystem.Model;
@@ -13,21 +15,23 @@ namespace TestingSystem.ViewModel
     {
         private readonly INavigationService _navigationService;
         private readonly ILocalDbService _localDbService;
+        private readonly IPopupService _popupService;
 
         private TestDisplayer _testDisplayer;
 
 
         [ObservableProperty]
-        private QuestionTest _question = new QuestionTest();
+        private QuestionTest _question = new();
 
         [ObservableProperty]
-        private ObservableCollection<QuestionTest> _questionTests = new ObservableCollection<QuestionTest>();
+        private ObservableCollection<QuestionTest> _questionTests = [];
 
       
-        public AddQuestionTestViewModel(INavigationService navigationService, ILocalDbService localDbService)
+        public AddQuestionTestViewModel(INavigationService navigationService, ILocalDbService localDbService,IPopupService popupService)
         {
             _navigationService = navigationService;
-            _localDbService = localDbService; 
+            _localDbService = localDbService;
+            _popupService = popupService;
         }
 
     
@@ -65,16 +69,23 @@ namespace TestingSystem.ViewModel
         }
 
 
-        [RelayCommand]
+        [RelayCommand]  
+        
         public async Task Save()
         {
-            //var newTest = new Test()
-            //_testDisplayer.Tests.Add()
+            if (QuestionTests.Count == 0)
+            {
+                Application.Current.MainPage.DisplayAlert("", $"Добавьте \"Вопрос\"", "ОK");
+                return;
+            }
 
-
+            await _popupService
+             .ShowPopupAsync<SavingTestViewModel>(onPresenting: viewModel => viewModel.AddTest( QuestionTests, _localDbService, _testDisplayer))
+             .ConfigureAwait(false);
+            await _navigationService.NavigateBackAsync();
+            
         }
 
-       
         public override Task OnNavigatingToAsync(object parameter, object parameterSecond = null)
         {
             if (parameter is TestDisplayer testDisplayer)

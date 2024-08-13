@@ -6,61 +6,32 @@ using System.Collections.ObjectModel;
 
 namespace TestingSystem.Model
 {
-    [Table("Category")]
-    public sealed partial class Category : ObservableObject
-    {
-        [PrimaryKey, AutoIncrement]
-        [Column("Id")]
-        public int Id { get; set; }
 
-        [Column("test_displayer_id")]
-        [ForeignKey(typeof(TestDisplayer))]
-        public int TestDisplayerId { get; set; }
-
-        public Category(string nameCategory)
-        {
-            NameCategory = nameCategory;
-        }
-
-        public string NameCategory { get; set; }
-    }
-
-    [Table("test_displayer")]
+    [Table(nameof(TestDisplayer))]
     public sealed partial class TestDisplayer : ObservableObject
     {
         [PrimaryKey, AutoIncrement]
         [Column("Id")]
-        public int Id { get; set; }
-
-        [ObservableProperty]
-        private string _nameTest;
-
-
-
-   
-
+        public int TestDisplayerId { get; set; }
+        public string SomethingAdditional { get; set; }
         public TestDisplayer()
         {
         }
 
-        private ObservableCollection<Test> _tests = [];
 
-        [Column("_tests")]
+
+        [Column("tests")]
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public ObservableCollection<Test> Tests
-        {
-            get => _tests;
-            set => SetProperty(ref _tests, value);
-        }
+        public ObservableCollection<Test> Tests { get; set; } = [];
 
 
-        [Column("Categorys")]
+        [Column("categorys")]
         [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public ObservableCollection<Category> Categorys { get; set; }
-       
-    
+        public ObservableCollection<Category> Categorys { get; set; } = [];
 
-    public void AddCategory(Category nameCategory)
+
+
+        public void AddCategory(Category nameCategory)
         {
             if (Categorys.Contains(nameCategory))
                 return;

@@ -5,9 +5,10 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:model = "clr-namespace:TestingSystem.Model"
              xmlns:view ="clr-namespace:TestingSystem.View"
-             xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel">
+             xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel"
+               x:Name="popup">
     <Border
-        Padding="0" HeightRequest="650"
+        Padding="0" HeightRequest="400"
            WidthRequest="500"
            Stroke="Transparent"
            BackgroundColor="#FFEAE7EC">
@@ -15,6 +16,12 @@
             <RoundRectangle CornerRadius="20"/>
         </Border.StrokeShape>
         <Frame>
+            <VerticalStackLayout>
+                <Entry Text="{Binding NameTest}" Placeholder ="Название теста"/>
+                <Entry Text="{Binding Category.NameCategory}" Placeholder ="Укажите к какой категории относится данный тест"/>
+                <Button Text="Добавить" Command="{Binding AddCommand}" CommandParameter="{Binding popup}"/>
+            </VerticalStackLayout>
+            
             
         </Frame>
     </Border>

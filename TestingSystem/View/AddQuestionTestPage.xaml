@@ -46,9 +46,9 @@
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
-        <Grid Grid.Column="1" RowDefinitions="*,50" ColumnSpacing="5">
-
-            <ScrollView Grid.Row="0">
+        <Grid Grid.Column="1" RowDefinitions="20,*,50" ColumnSpacing="5">
+            <Label Text="{Binding QuestionTests.Count ,StringFormat='Вопосов {0}'}" FontSize="Micro" HorizontalOptions="Center" />
+            <ScrollView Grid.Row="1">
                 <CollectionView ItemsSource="{Binding QuestionTests}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="{x:Type model:QuestionTest}">
@@ -69,8 +69,8 @@
 
                 </CollectionView>
             </ScrollView>
-            
-            <Button Grid.Row="1" Text="Save" Command="{Binding SaveCommand}"/>
+
+            <Button Grid.Row="2" Text="Save"  Command="{Binding SaveCommand}"/>
         </Grid>
     </Grid>
 </ContentPage>

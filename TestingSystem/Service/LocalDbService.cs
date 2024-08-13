@@ -16,7 +16,7 @@ namespace TestingSystem.Service
 
     public sealed class LocalDbService: ILocalDbService
     {
-        private const string DB_NAME = "data_test_displayer_2.db3";
+        private const string DB_NAME = "sfGgF.db3";
         private SQLiteConnection _connection;
         private const SQLiteOpenFlags Flags =
             SQLiteOpenFlags.ReadWrite |
@@ -29,11 +29,20 @@ namespace TestingSystem.Service
                 return;
             _connection = new SQLiteConnection(Path.Combine(Microsoft.Maui.Storage.FileSystem.AppDataDirectory, DB_NAME), Flags);
 
+            try
+            {
                 _ = _connection.CreateTable<TestDisplayer>();
                 _ = _connection.CreateTable<AnswerOption>();
                 _ = _connection.CreateTable<Test>();
                 _ = _connection.CreateTable<QuestionTest>();
                 _ = _connection.CreateTable<Category>();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+               
                 //_ = _connection.CreateTable<VerificationQRCode>();
                 //_ = _connection.CreateTable<MessageText>();
                 //_ = _connection.CreateTable<MailAccount>();
@@ -48,7 +57,7 @@ namespace TestingSystem.Service
             {
                 wholeEvent = _connection.GetAllWithChildren<TestDisplayer>(recursive: true).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                
@@ -77,7 +86,7 @@ namespace TestingSystem.Service
         {
             try
             {
-                Init(); 
+                Init();
                 _connection.InsertWithChildren(value, recursive: true);
             }
             catch (Exception)

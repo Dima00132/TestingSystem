@@ -5,12 +5,12 @@ using System.Collections.ObjectModel;
 
 namespace TestingSystem.Model
 {
-    [Table("question_test")]
+    [Table(nameof(QuestionTest))]
     public sealed partial class QuestionTest : ObservableObject
     {
         [PrimaryKey, AutoIncrement]
         [Column("Id")]
-        public int Id { get; set; }
+        public int QuestionTestId { get; set; }
 
         [Column("test_id")]
         [ForeignKey(typeof(Test))]

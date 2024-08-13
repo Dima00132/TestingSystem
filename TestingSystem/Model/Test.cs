@@ -12,20 +12,32 @@ namespace TestingSystem.Model
 {
 
 
-    [Table("test")]
+    [Table(nameof(Test))]
     public sealed partial class Test : ObservableObject
     {
         [PrimaryKey, AutoIncrement]
         [Column("Id")]
-        public int Id { get; set; }
-        [ObservableProperty]
-        public string _category;
+        public int TestId { get; set; }
 
         [Column("test_displayer_id")]
         [ForeignKey(typeof(TestDisplayer))]
         public int TestDisplayerId { get; set; }
 
-        public Test(string category,string nameTest)
+
+        private Category _category;
+
+
+        [Column("category")]
+        [OneToOne(CascadeOperations = CascadeOperation.All)]
+        public Category Category
+        {
+            get => _category;
+            set => SetProperty(ref _category, value);
+        }
+
+
+
+        public Test(Category category,string nameTest)
         {
             Category = category;
             _nameTest = nameTest;
@@ -35,8 +47,14 @@ namespace TestingSystem.Model
         {
         }
 
-        [ObservableProperty]
+      
         private string _nameTest;
+        [Column("NameTest")]
+        public string NameTest
+        {
+            get => _nameTest;
+            set => SetProperty(ref _nameTest, value);
+        }
 
         private ObservableCollection<QuestionTest> _questionTests = [];
         [Column("question_tests")]
