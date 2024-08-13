@@ -17,7 +17,16 @@ namespace TestingSystem.Model
         [Column("Id")]
         public int Id { get; set; }
 
+        [ObservableProperty]
+        private string _nameTest;
+
         private ObservableCollection<Test> _tests = [];
+
+        public TestDisplayer(string nameTest)
+        {
+            _nameTest = nameTest;
+        }
+
         [Column("_tests")]
         [OneToMany(CascadeOperations = CascadeOperation.All)]
         public ObservableCollection<Test> Tests

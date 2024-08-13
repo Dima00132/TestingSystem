@@ -1,6 +1,7 @@
 ﻿using TestingSystem.ViewModel;
 using TestingSystem.ViewModel.Base;
 using System.Diagnostics;
+using TestingSystem.View;
 
 
 
@@ -12,8 +13,8 @@ namespace TestingSystem.Navigation
         private readonly Dictionary<Type, Type> viewModelView = new()
         {
             {typeof(MainViewModel),typeof(MainPage)},
-            
-
+            {typeof(AddQuestionTestViewModel),typeof(AddQuestionTestPage)},
+            {typeof(PassingTestViewModel),typeof(PassingTestPage)},
         };
 
 
