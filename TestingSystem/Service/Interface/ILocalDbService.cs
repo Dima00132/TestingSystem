@@ -6,7 +6,7 @@ namespace TestingSystem.Service.Interface
     public interface ILocalDbService
     {
         public void Init();
-        public WholeEvent GetWholeEvent();
+        public TestDisplayer GetTestDisplayer();
         public void Create<T>(T value);
         public void Update<T>(T value);
         public void Delete<T>(T value);

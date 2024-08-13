@@ -2,6 +2,7 @@
 using TestingSystem.Navigation;
 using TestingSystem.Service;
 using TestingSystem.Service.Interface;
+using TestingSystem.View;
 using TestingSystem.ViewModel;
 
 namespace TestingSystem
@@ -10,8 +11,8 @@ namespace TestingSystem
     {
         public static MauiAppBuilder ConfigureServices(this MauiAppBuilder builder)
         {
-            //builder.Services.AddTransient<ScannerQRCodeViewModel>().AddTransient<ScannerQRCodePage>();
-            //builder.Services.AddTransient<GuestListViewModel>().AddTransient<GuestListPage>();
+            builder.Services.AddTransient<AddQuestionTestViewModel>().AddTransient<AddQuestionTestPage>();
+            builder.Services.AddTransient<PassingTestViewModel>().AddTransient<PassingTestPage>();
             //builder.Services.AddTransient<EditorEventViewModel>().AddTransient<EditorEventPage>();
             //builder.Services.AddTransient<StatisticsViewModel>().AddTransient<StatisticsPage>();
             //builder.Services.AddTransient<MailingViewModel>().AddTransient<MailingPage>();

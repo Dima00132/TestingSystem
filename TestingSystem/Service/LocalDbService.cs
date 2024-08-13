@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestingSystem.Model;
 
 
 namespace TestingSystem.Service
@@ -15,7 +16,7 @@ namespace TestingSystem.Service
 
     public sealed class LocalDbService: ILocalDbService
     {
-        private const string DB_NAME = "data_whole_event_save_15.db3";
+        private const string DB_NAME = "data_test_displayer_1.db3";
         private SQLiteConnection _connection;
         private const SQLiteOpenFlags Flags =
             SQLiteOpenFlags.ReadWrite |
@@ -38,7 +39,7 @@ namespace TestingSystem.Service
             
             try
             {
-                //_ = _connection.CreateTable<WholeEvent>();
+                _ = _connection.CreateTable<TestDisplayer>();
                 //_ = _connection.CreateTable<ScheduledEvent>();
                 //_ = _connection.CreateTable<Guest>();
                 //_ = _connection.CreateTable<User>();
@@ -58,13 +59,13 @@ namespace TestingSystem.Service
             
         }
 
-        public WholeEvent GetWholeEvent()
+        public TestDisplayer GetTestDisplayer()
         {
             Init();
-            WholeEvent wholeEvent = null;
+            TestDisplayer wholeEvent = null;
             try
             {
-                wholeEvent = _connection.GetAllWithChildren<WholeEvent>(recursive: true).FirstOrDefault();
+                wholeEvent = _connection.GetAllWithChildren<TestDisplayer>(recursive: true).FirstOrDefault();
             }
             catch (Exception)
             {
@@ -74,7 +75,7 @@ namespace TestingSystem.Service
             
             if (wholeEvent is null)
             {
-                wholeEvent = new WholeEvent();
+                wholeEvent = new TestDisplayer();
                 Create(wholeEvent);
             }
             return wholeEvent;

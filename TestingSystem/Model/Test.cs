@@ -28,6 +28,13 @@ namespace TestingSystem.Model
 
         public ObservableCollection<string> Category { get; set; }
 
+        public void AddCategory(string nameCategory)
+        {
+            if (string.IsNullOrEmpty(nameCategory) | Category.Contains(nameCategory))
+                return;
+            Category.Add(nameCategory);
+        }
+
     }
 
 

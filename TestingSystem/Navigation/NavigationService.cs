@@ -9,12 +9,12 @@ namespace TestingSystem.Navigation
     public sealed class NavigationService : INavigationService
     {
 
-        //private readonly Dictionary<Type, Type> viewModelView = new()
-        //{
-        //    {typeof(MainViewModel),typeof(MainPage)},
-        //    {typeof(ScannerQRCodeViewModel),typeof(ScannerQRCodePage)},
+        private readonly Dictionary<Type, Type> viewModelView = new()
+        {
+            {typeof(MainViewModel),typeof(MainPage)},
+            
 
-        //};
+        };
 
 
 
@@ -47,13 +47,13 @@ namespace TestingSystem.Navigation
         public Task NavigateByViewModelAsync<T>(object parameter = null) where T : ViewModelBase
         {
 
-            //if (viewModelView.ContainsKey(typeof(T)))
-            //{
-            //    var typePage = viewModelView[typeof(T)];
-            //    return NavigateToPageAsync(typePage, parameter);
-            //}else
-            //    throw new KeyNotFoundException($"Не найден тип в словаре {viewModelView}");
-            throw new KeyNotFoundException();
+            if (viewModelView.ContainsKey(typeof(T)))
+            {
+                var typePage = viewModelView[typeof(T)];
+                return NavigateToPageAsync(typePage, parameter);
+            }
+            else
+                throw new KeyNotFoundException($"Не найден тип в словаре {viewModelView}");   
         }
 
 
