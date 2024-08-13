@@ -25,14 +25,18 @@ namespace TestingSystem.Model
         [ForeignKey(typeof(TestDisplayer))]
         public int TestDisplayerId { get; set; }
 
-        public Test(string category)
+        public Test(string category,string nameTest)
         {
             Category = category;
+            _nameTest = nameTest;
         }
 
         public Test()
         {
         }
+
+        [ObservableProperty]
+        private string _nameTest;
 
         private ObservableCollection<QuestionTest> _questionTests = [];
         [Column("question_tests")]

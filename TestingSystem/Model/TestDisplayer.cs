@@ -37,12 +37,9 @@ namespace TestingSystem.Model
 
 
 
-        public TestDisplayer(string nameTest)
-        {
-            _nameTest = nameTest;
-        }
+   
 
-        public TestDisplayer():this("") 
+        public TestDisplayer()
         {
         }
 

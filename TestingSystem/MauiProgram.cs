@@ -1,9 +1,12 @@
 ﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
 using Microsoft.Extensions.Logging;
 using TestingSystem.Navigation;
 using TestingSystem.Service;
 using TestingSystem.Service.Interface;
 using TestingSystem.View;
+
+using TestingSystem.View.ViewPopup;
 using TestingSystem.ViewModel;
 
 namespace TestingSystem
@@ -18,11 +21,10 @@ namespace TestingSystem
             //builder.Services.AddTransient<StatisticsViewModel>().AddTransient<StatisticsPage>();
             //builder.Services.AddTransient<MailingViewModel>().AddTransient<MailingPage>();
             //builder.Services.AddSingleton<IMailAccount, MailAccount>();
-            //builder.Services.AddSingleton<IPopupService, PopupService>()
-            //    .AddTransientPopup<GuestListFromDocumentPopup, GuestListFromDocumentViewModel>()
-            //    .AddTransientPopup<DisplayAlertSendingMessagesErrorPopup, DisplayAlertSendingMessagesErrorViewModel>()
-            //    .AddTransientPopup<DisplayAlertSendMessageProgressPopup, DisplayAlertSendMessageProgressViewModel>()
-            //    .AddTransientPopup<MessageBroadcastDisplayPopup, MessageBroadcastDisplayViewModel>();
+            builder.Services.AddSingleton<IPopupService, CommunityToolkit.Maui.PopupService>()
+                .AddTransientPopup<SavingTestPopup, SavingTestViewModel>();
+
+           
             //builder.Services.AddTransient<AddScheduledEventViewModel>().AddTransient<AddScheduledEventPage>();
             //builder.Services.AddTransient<GuestVerificationTableViewModel>().AddTransient<GuestVerificationTablePage>();
             //builder.Services.AddTransient<SettingsPage>().AddTransient<SettingsViewModel>();

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestingSystem.View.ViewPopup.SavingTestPopup"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:model = "clr-namespace:TestingSystem.Model"
+             xmlns:view ="clr-namespace:TestingSystem.View"
+             xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel">
+    <Border
+        Padding="0" HeightRequest="650"
+           WidthRequest="500"
+           Stroke="Transparent"
+           BackgroundColor="#FFEAE7EC">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="20"/>
+        </Border.StrokeShape>
+        <Frame>
+            
+        </Frame>
+    </Border>
+</toolkit:Popup>

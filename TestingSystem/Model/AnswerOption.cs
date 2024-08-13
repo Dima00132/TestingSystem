@@ -10,6 +10,10 @@ namespace TestingSystem.Model
             IsCorrect = isCorrect;
         }
 
+        public AnswerOption():this("")
+        {
+        }
+
         [ObservableProperty]
         private string _answer;
 

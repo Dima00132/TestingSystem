@@ -16,6 +16,7 @@ namespace TestingSystem.ViewModel
 
         private TestDisplayer _testDisplayer;
 
+
         [ObservableProperty]
         private QuestionTest _question = new QuestionTest();
 
@@ -29,33 +30,51 @@ namespace TestingSystem.ViewModel
             _localDbService = localDbService; 
         }
 
-        
+    
+        [RelayCommand]
+        public  void DeleteAnswerOptions(AnswerOption answerOption)
+        {
+            Question.AnswerOptions.Remove(answerOption);
+        }
+
 
         [RelayCommand]
-        public async Task AddAnswerOptions()
+        public void DeleteQuestionTest(QuestionTest questionTest)
         {
-            Question.AnswerOptions.Add(new AnswerOption(""));
+            QuestionTests.Remove(questionTest);
+        }
 
+
+        
+        [RelayCommand]
+        public void  AddAnswerOptions()
+        {
+            Question.AnswerOptions.Add(new AnswerOption());
         }
 
         [RelayCommand]
-        public async Task AddQuestionTest()
+        public void AddQuestionTest()
         {
-
-
-          
+            if(string.IsNullOrEmpty(Question.Question))
+            {
+                Application.Current.MainPage.DisplayAlert("", $"Заполните поле \"Вопрос\"", "ОK");
+                return;
+            }    
+            QuestionTests.Add(Question);
+            Question = new QuestionTest();
         }
 
 
         [RelayCommand]
         public async Task Save()
         {
-
+            //var newTest = new Test()
+            //_testDisplayer.Tests.Add()
 
 
         }
 
-       // public bool CheckNameEvent() => !string.IsNullOrEmpty(QuestionTest.Question);
+       
         public override Task OnNavigatingToAsync(object parameter, object parameterSecond = null)
         {
             if (parameter is TestDisplayer testDisplayer)
