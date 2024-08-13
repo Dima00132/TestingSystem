@@ -66,8 +66,18 @@ namespace TestingSystem.Navigation
 
         private async Task NavigateToPageAsync<T>(object parameter = null, object parameterSecond = null) where T : Page
         {
-            if (ResolvePage<T>() is T toPage)
-                await InitializecircutPageAsync(toPage, parameter, parameterSecond);
+            try
+            {
+                if (ResolvePage<T>() is T toPage)
+                    await InitializecircutPageAsync(toPage, parameter, parameterSecond);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message,ex);
+
+            }
+         
         }
 
         private async Task InitializecircutPageAsync(Page toPage, object parameter = null, object parameterSecond = null)

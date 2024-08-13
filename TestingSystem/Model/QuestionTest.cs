@@ -26,7 +26,8 @@ namespace TestingSystem.Model
             set => SetProperty(ref _answerOptions, value);
         }
 
-        public string Question { get; private set; } = string.Empty;
+        [ObservableProperty]
+        private string _question;
 
     }
 }

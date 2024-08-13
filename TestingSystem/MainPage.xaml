@@ -3,37 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model = "clr-namespace:TestingSystem.Model"
              xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="TestingSystem.MainPage">
 
-    <Grid ColumnDefinitions="*,300">
+    <Grid RowDefinitions ="50,50,*">
+        <Label Grid.Row="0" Text="Test" FontSize="Title" HorizontalOptions="Center"/>
 
-        <ScrollView Grid.Column="0">
-            <Grid RowDefinitions="50,50,*">
-                <Label Grid.Row="0"/>
-                <CollectionView Grid.Row="2"
-                                AbsoluteLayout.LayoutFlags="All"
-                                ItemsSource="{Binding TestDisplayer}" >
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="{x:Type model:QuestionTest}">
-                            <Frame>
-                                <Label Grid.Column="0">
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{} {0}  ">
-                                            <Binding Path="NameTest" Mode="TwoWay" />
-                                         
-                                        </MultiBinding>
-                                    </Label.Text>
-                                </Label>
-                            </Frame>
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" HorizontalOptions="CenterAndExpand">
+            <SearchBar Grid.Column="0" 
+                           x:Name="CompanySearch"
+                           Placeholder="Поиск.." HorizontalOptions="StartAndExpand">
+                    <SearchBar.Behaviors>
+                        <toolkit:EventToCommandBehavior
+                            EventName="TextChanged"
+                            Command="{Binding PerformSearchCommand}"
+                            CommandParameter="{Binding Text, Source={x:Reference CompanySearch}}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </Grid>
-        </ScrollView>
-        
-        <ScrollView Grid.Column="1">
+            <Picker Grid.Column="1"  Title = "Category" ItemsSource="{Binding TestDisplayer.Category}">
+               
+            </Picker>
 
+            <Button Grid.Column="2" Text="Add" Command="{Binding AddQuestionTestCommand}"/>
+
+        </Grid>
+     
+
+        <ScrollView Grid.Row="2">
+
+            <CollectionView 
+                      AbsoluteLayout.LayoutFlags="All"
+                      ItemsSource="{Binding TestDisplayer}" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type model:QuestionTest}">
+                        <Frame>
+                            <Label Grid.Column="0">
+                                <Label.Text>
+                                    <MultiBinding StringFormat="{} {0}  ">
+                                        <Binding Path="NameTest" Mode="TwoWay" />
+
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                        </Frame>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </ScrollView>
 
     </Grid>

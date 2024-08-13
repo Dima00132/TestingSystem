@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using TestingSystem.Navigation;
 using TestingSystem.Service;
 using TestingSystem.Service.Interface;
@@ -29,7 +30,8 @@ namespace TestingSystem
             builder.Services.AddSingleton<ILocalDbService, LocalDbService>();
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             //builder.Services.AddTransient<ListOfEventsPage>().AddTransient<ListOfEventsViewModel>();
-            builder.Services.AddSingleton<MainPage>().AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<MainPage>();
             return builder;
         }
     }
@@ -41,6 +43,7 @@ namespace TestingSystem
             builder
                 .UseMauiApp<App>()
                 .ConfigureServices()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

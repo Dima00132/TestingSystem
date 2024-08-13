@@ -1,24 +1,16 @@
-﻿namespace TestingSystem
+﻿using TestingSystem.ViewModel;
+
+namespace TestingSystem
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
-        public MainPage()
+        private readonly MainViewModel _mainViewModel;
+    
+        public MainPage(MainViewModel mainViewModel)
         {
             InitializeComponent();
-        }
-
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            BindingContext = mainViewModel;
+            _mainViewModel = mainViewModel;
         }
     }
 

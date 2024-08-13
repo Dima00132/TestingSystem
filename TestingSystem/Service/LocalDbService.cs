@@ -16,7 +16,7 @@ namespace TestingSystem.Service
 
     public sealed class LocalDbService: ILocalDbService
     {
-        private const string DB_NAME = "data_test_displayer_1.db3";
+        private const string DB_NAME = "data_test_displayer_2.db3";
         private SQLiteConnection _connection;
         private const SQLiteOpenFlags Flags =
             SQLiteOpenFlags.ReadWrite |
@@ -27,36 +27,17 @@ namespace TestingSystem.Service
         {
             if (_connection is not null)
                 return;
-            try
-            {
-                _connection = new SQLiteConnection(Path.Combine(Microsoft.Maui.Storage.FileSystem.AppDataDirectory, DB_NAME), Flags);
-            }
-            catch (Exception)
-            {
+            _connection = new SQLiteConnection(Path.Combine(Microsoft.Maui.Storage.FileSystem.AppDataDirectory, DB_NAME), Flags);
 
-                throw;
-            }
-            
-            try
-            {
                 _ = _connection.CreateTable<TestDisplayer>();
-                //_ = _connection.CreateTable<ScheduledEvent>();
-                //_ = _connection.CreateTable<Guest>();
-                //_ = _connection.CreateTable<User>();
-                //_ = _connection.CreateTable<Mail>();
+                _ = _connection.CreateTable<AnswerOption>();
+                _ = _connection.CreateTable<Test>();
+                _ = _connection.CreateTable<QuestionTest>();
+                _ = _connection.CreateTable<Category>();
                 //_ = _connection.CreateTable<VerificationQRCode>();
                 //_ = _connection.CreateTable<MessageText>();
                 //_ = _connection.CreateTable<MailAccount>();
-                //_ = _connection.CreateTable<MailServer>();
-
-           
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
-            
+                //_ = _connection.CreateTable<MailServer>();  
         }
 
         public TestDisplayer GetTestDisplayer()

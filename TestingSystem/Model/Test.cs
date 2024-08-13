@@ -10,41 +10,6 @@ using System.Threading.Tasks;
 
 namespace TestingSystem.Model
 {
-    [Table("test_displayer")]
-    public sealed partial class TestDisplayer : ObservableObject
-    {
-        [PrimaryKey, AutoIncrement]
-        [Column("Id")]
-        public int Id { get; set; }
-
-        [ObservableProperty]
-        private string _nameTest;
-
-        private ObservableCollection<Test> _tests = [];
-
-        public TestDisplayer(string nameTest)
-        {
-            _nameTest = nameTest;
-        }
-
-        [Column("_tests")]
-        [OneToMany(CascadeOperations = CascadeOperation.All)]
-        public ObservableCollection<Test> Tests
-        {
-            get => _tests;
-            set => SetProperty(ref _tests, value);
-        }
-
-        public ObservableCollection<string> Category { get; set; }
-
-        public void AddCategory(string nameCategory)
-        {
-            if (string.IsNullOrEmpty(nameCategory) | Category.Contains(nameCategory))
-                return;
-            Category.Add(nameCategory);
-        }
-
-    }
 
 
     [Table("test")]
@@ -57,7 +22,7 @@ namespace TestingSystem.Model
         public string _category;
 
         [Column("test_displayer_id")]
-        [ForeignKey(typeof(Test))]
+        [ForeignKey(typeof(TestDisplayer))]
         public int TestDisplayerId { get; set; }
 
         public Test(string category)
@@ -65,7 +30,9 @@ namespace TestingSystem.Model
             Category = category;
         }
 
-       
+        public Test()
+        {
+        }
 
         private ObservableCollection<QuestionTest> _questionTests = [];
         [Column("question_tests")]
