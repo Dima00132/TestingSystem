@@ -5,12 +5,6 @@ using SQLiteNetExtensions.Attributes;
 
 namespace TestingSystem.Model
 {
-    public enum Selector
-    {
-        CorrectValue,
-        NoValueSelected,
-        IncorrectValue
-    }
 
 
     [Table(nameof(AnswerOption))]
@@ -25,47 +19,20 @@ namespace TestingSystem.Model
         [ForeignKey(typeof(QuestionTest))]
         public int QuestionTestId { get; set; }
 
-        public AnswerOption(string answer, Selector correct = Selector.NoValueSelected)
-        {
-            Answer = answer;
-            Correct = correct;
-        }
-
-        public AnswerOption():this("")
-        {
-        }
-
         [ObservableProperty]
         private string _answer;
 
-
         [ObservableProperty]
         private Selector _correct;
-        
 
-        
+        [ObservableProperty]
         private Selector _selected = Selector.NoValueSelected;
-        [Ignore]
-        public Selector Selected 
-        {
-            get => _selected;
-            set => SetProperty(ref _selected, value);
-        }
-
-        //[ObservableProperty]
-        //private bool _isCorrect;
-
-        //[ObservableProperty]
-        //private bool _isSelected;
 
         private Dictionary<Selector, Func<Selector, Selector, Selector>> keyValuePairs = new()
         {
             [Selector.CorrectValue] = (Correct, Selected) => Selector.CorrectValue,
-            [Selector.NoValueSelected] = (Correct, Selected) => Selected == Selector.CorrectValue? Selector.IncorrectValue: Selector.NoValueSelected
+            [Selector.NoValueSelected] = (Correct, Selected) => Selected == Selector.CorrectValue ? Selector.IncorrectValue : Selector.NoValueSelected
         };
-
-
-
 
         public Selector IsCorrectAnswer
         {
@@ -74,6 +41,16 @@ namespace TestingSystem.Model
                 return keyValuePairs[Correct].Invoke(Correct, Selected);
             }
             set { }
+        }
+
+        public AnswerOption(string answer, Selector correct = Selector.NoValueSelected)
+        {
+            Answer = answer;
+            Correct = correct;
+        }
+
+        public AnswerOption() : this("")
+        {
         }
 
         public AnswerOption Clone()
