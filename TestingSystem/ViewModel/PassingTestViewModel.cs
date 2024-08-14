@@ -20,8 +20,8 @@ namespace TestingSystem.ViewModel
         [ObservableProperty]
         private QuestionTest _questionTest;
 
-        //[ObservableProperty]
-        //public bool _isIsVisibleQuestion = true;
+        [ObservableProperty]
+        public string _statistics;
 
         [ObservableProperty]
         public int _questionNumber = 0;
@@ -43,8 +43,10 @@ namespace TestingSystem.ViewModel
             {
                 QuestionTest = StackQuestionTests.Pop();
                 QuestionNumber++;
+                return;
+                
             }
-            //IsIsVisibleQuestion = false;
+            Statistics= _test.GetStatistics();
         }
 
         public override Task OnNavigatingToAsync(object parameter, object parameterSecond = null)

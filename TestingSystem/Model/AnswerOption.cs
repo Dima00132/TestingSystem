@@ -5,6 +5,14 @@ using SQLiteNetExtensions.Attributes;
 
 namespace TestingSystem.Model
 {
+    public enum AnswerChoice
+    {
+        Correct,
+        Incorrect,
+        NotSelected
+    }
+
+
     [Table(nameof(AnswerOption))]
     public sealed partial class AnswerOption:ObservableObject
     {
@@ -17,11 +25,11 @@ namespace TestingSystem.Model
         [ForeignKey(typeof(QuestionTest))]
         public int QuestionTestId { get; set; }
 
-        public AnswerOption(string answer, bool isCorrect = false)
+        public AnswerOption(string answer, AnswerChoice correct = AnswerChoice.NotSelected)
         {
             Answer = answer;
-            IsCorrect = isCorrect;
-            _isSelected = false;
+            Correct = correct;
+            Selected = AnswerChoice.NotSelected;
         }
 
         public AnswerOption():this("")
@@ -31,16 +39,24 @@ namespace TestingSystem.Model
         [ObservableProperty]
         private string _answer;
 
-        [ObservableProperty]
-        private bool _isCorrect;
 
         [ObservableProperty]
-        private bool _isSelected;
+        private AnswerChoice _correct;
 
-        public bool CompareAswer()
-        {
-            return IsCorrect == IsSelected;
-        }
+        [ObservableProperty]
+        private AnswerChoice _selected;
+
+
+        //[ObservableProperty]
+        //private bool _isCorrect;
+
+        //[ObservableProperty]
+        //private bool _isSelected;
+
+
+
+        public bool IsCorrectAnswer=> Correct == AnswerChoice.Correct &  Selected == AnswerChoice.Correct;
+      
 
     }
 }

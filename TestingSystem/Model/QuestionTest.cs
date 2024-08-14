@@ -30,5 +30,17 @@ namespace TestingSystem.Model
         [ObservableProperty]
         private string _question;
 
+
+        public bool DetermineWhetherAnswerIsCorrectOrNot()
+        {
+            var correctAnswers = AnswerOptions.Where(x => x.Correct == AnswerChoice.Correct).ToList();
+            var correctNumberCorrectAnswers = correctAnswers.Count;
+            var numberCorrectAnswersSelected = 0;
+            foreach (var item in correctAnswers)
+                if (item.IsCorrectAnswer)
+                    numberCorrectAnswersSelected++;
+    
+            return correctNumberCorrectAnswers == numberCorrectAnswersSelected;
+        }
     }
 }
