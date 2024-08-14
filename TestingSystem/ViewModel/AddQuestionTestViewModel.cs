@@ -74,7 +74,7 @@ namespace TestingSystem.ViewModel
         {
             if (QuestionTests.Count == 0)
             {
-                Application.Current.MainPage.DisplayAlert("", $"Добавьте \"Вопрос\"", "ОK");
+                await Application.Current.MainPage.DisplayAlert("", $"Добавьте \"Вопрос\"", "ОK");
                 return;
             }
             CheckingAnswerOptionForCompletion(QuestionTests);

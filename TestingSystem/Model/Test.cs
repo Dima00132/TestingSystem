@@ -30,7 +30,7 @@ namespace TestingSystem.Model
         public int TestDisplayerId { get; set; }
 
 
-        private Category _category;
+        private Category _category = new();
 
 
         [Column("category")]

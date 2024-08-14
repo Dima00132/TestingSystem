@@ -4,15 +4,16 @@
              xmlns:model = "clr-namespace:TestingSystem.Model"
              xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="TestingSystem.MainPage">
+             x:Class="TestingSystem.MainPage"
+             BackgroundColor="#A9A9A9">
 
-    <Grid RowDefinitions ="50,50,*" Margin="15">
-        <Label Grid.Row="0" Text="Test" FontSize="Title"/>
+    <Grid RowDefinitions ="50,80,*" Margin="15">
+        <Label Grid.Row="0" Text="Выбор тестов" HorizontalTextAlignment="Center" FontSize="Title"/>
 
-        <Grid Grid.Row="1" ColumnDefinitions="*,*,*" >
-            <SearchBar Grid.Column="0" 
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*"  ColumnSpacing="5" Margin="15">
+            <SearchBar Grid.Column="0"  BackgroundColor="#E6E6FA"  HorizontalOptions="Center"
                            x:Name="CompanySearch"
-                           Placeholder="Поиск.." HorizontalOptions="StartAndExpand">
+                           Placeholder="Поиск..">
                     <SearchBar.Behaviors>
                         <toolkit:EventToCommandBehavior
                             EventName="TextChanged"
@@ -21,40 +22,40 @@
                     </SearchBar.Behaviors>
                 </SearchBar>
 
-            <Picker Grid.Column="1" Margin="-5" Title = "Category" ItemsSource="{Binding Categorys}" SelectedIndex="{Binding CurrentCategory}"/>
-            
-            <Button Grid.Column="2" Text="Add" Command="{Binding AddQuestionTestCommand}"/>
+            <Picker Grid.Column="1"  Title = "Category" ItemsSource="{Binding Categorys}" />
+        
+            <Button Grid.Column="2" Text="Добавть тест" Command="{Binding AddQuestionTestCommand}"/>
 
         </Grid>
      
 
         <ScrollView Grid.Row="2" Margin="30">
-
             <CollectionView 
                       AbsoluteLayout.LayoutFlags="All"
-                      ItemsSource="{Binding Tests}" >
+                      ItemsSource="{Binding Tests}" SelectionMode="Multiple" SelectedItems="{Binding Selected}" >
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type model:Test}">
-                        <Frame>
-                            <StackLayout>
+
+                        <Frame BackgroundColor="#E6E6FA" Margin="15">
+                            <StackLayout Padding="5">
                                 <Label Text="{Binding NameTest}"/>
                                 <FlyoutBase.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Text="Пройти тест" 
                                                         Command="{Binding Path=TapCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"
                                                         CommandParameter="{Binding .}"/>
+                                        <MenuFlyoutItem Text="Пройти выбранные тесты" IsDestructive="False"
+                                                        Command="{Binding Path=RunSelectedTestsCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"/>
                                         <MenuFlyoutItem Text="Удалить" 
                                                         Command="{Binding Path=DeleteCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"
                                                         CommandParameter="{Binding .}"/>
                                     </MenuFlyout>
                                 </FlyoutBase.ContextFlyout>
                             </StackLayout>
-                            
-                            
                         </Frame>
-
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
+               
             </CollectionView>
         </ScrollView>
 

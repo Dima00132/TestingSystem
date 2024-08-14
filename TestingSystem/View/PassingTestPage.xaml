@@ -4,10 +4,10 @@
              x:Class="TestingSystem.View.PassingTestPage"
              xmlns:model = "clr-namespace:TestingSystem.Model"
              xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel"
-             Title="PassingTestPage1xaml">
+             BackgroundColor="#A9A9A9">
     <ScrollView>
         <StackLayout>
-            <Grid x:Name="TestProgressDisplay" RowDefinitions="25,*,*,80" >
+            <Grid x:Name="TestProgressDisplay" RowDefinitions="25,*,*,50" >
                 <Label Grid.Row="0" HorizontalTextAlignment="Center">
                     <Label.Text>
                         <MultiBinding StringFormat="{}Вопрос № {0} из {1} ">
@@ -18,29 +18,29 @@
                 </Label>
 
                 <Label Grid.Row="1" VerticalOptions="Center" HorizontalTextAlignment="Center"
-                  Text="{Binding QuestionTest.Question}"/>
+                  Text="{Binding QuestionTest.Question}" FontSize="Medium"/>
 
                 <CollectionView Grid.Row="2" Margin="30"
                    AbsoluteLayout.LayoutFlags="All"
                     ItemsSource="{Binding QuestionTest.AnswerOptions}" >
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="{x:Type model:AnswerOption}">
-                            <Frame Margin="5">
+                            <Frame Margin="20">
                                 <Grid ColumnDefinitions="*,100" ColumnSpacing="5" >
-                                    <Label Grid.Column="0" Text="{Binding Answer}" VerticalTextAlignment="Center"/>
+                                    <Label Grid.Column="0" Text="{Binding Answer}"  VerticalTextAlignment="Center"/>
                                     <CheckBox Grid.Column="1"  CheckedChanged="CheckBox_CheckedChanged"  />
                                 </Grid>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Button Grid.Row="3" Text="Далее" Command="{Binding NextQuestionCommand}" Clicked="Button_Clicked"/>
+                <Button Grid.Row="3" Text="Далее" Margin="350,0,350,0"  Command="{Binding NextQuestionCommand}" Clicked="Button_Clicked"/>
             </Grid>
             
 
             <Grid x:Name="TestResultDisplay" 
                   IsVisible="False" 
-                  RowDefinitions="25,*,80" >
+                  RowDefinitions="25,*,50" >
                 <Label Text="{Binding Statistics}" 
                        Grid.Row="0" 
                        HorizontalTextAlignment="Center"/>
@@ -89,6 +89,8 @@
                 </CollectionView>
                 <Button Grid.Row="2" 
                         Text="Выйти" 
+                        VerticalOptions="Center"
+                        Margin="350,0,350,0"
                         Command="{Binding ExitCommand}" 
                         Clicked="Button_Clicked"/>
             </Grid>

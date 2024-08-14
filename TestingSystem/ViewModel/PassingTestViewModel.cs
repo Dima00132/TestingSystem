@@ -23,6 +23,8 @@ namespace TestingSystem.ViewModel
         [ObservableProperty]
         public string _statistics;
         [ObservableProperty]
+        private bool _isTestPassed = false;
+        [ObservableProperty]
         public int _questionNumber = 0;
         [ObservableProperty]
         public int _questionTestsCount;
@@ -50,7 +52,8 @@ namespace TestingSystem.ViewModel
                 QuestionNumber++;
                 return;  
             }
-            Statistics= _test.GetStatistics();
+            IsTestPassed = true;
+            Statistics = _test.GetStatistics();
         }
 
         public override Task OnNavigatingToAsync(object parameter, object parameterSecond = null)

@@ -25,6 +25,9 @@ namespace TestingSystem.ViewModel
         private ObservableCollection<Test> _tests;
 
         [ObservableProperty]
+        private ObservableCollection<object> _selected = [];
+
+        [ObservableProperty]
         private ObservableCollection<string> _categorys;
         
         [ObservableProperty]
@@ -52,7 +55,6 @@ namespace TestingSystem.ViewModel
             if (!string.IsNullOrEmpty(testName) && testName.Length >= 1)
             {
                 var data = await Task.FromResult(_testDisplayer.FindsNameTestByRequest(testName)).ConfigureAwait(false);
-
                 if (data is not null)
                     Tests = new ObservableCollection<Test>(data);
             }
@@ -69,6 +71,18 @@ namespace TestingSystem.ViewModel
             _testDisplayer.Tests.Remove(test);
             SortTests(_testDisplayer);
             _localDbService.Update(_testDisplayer);
+        });
+
+
+        public RelayCommand RunSelectedTestsCommand => new(async () =>
+        {
+            if (Selected.Count == 0)
+                return;
+            var newTest = new Test() { NameTest = "Сборка тестов" };
+            var selectedTests = Selected.OfType<Test>().SelectMany(x=>x.QuestionTests).ToObservableCollection();
+            foreach (var item in selectedTests)
+                newTest.AddQuestionTest(item);
+            await _navigationService.NavigateByViewModelAsync<PassingTestViewModel>(newTest.Clone());
         });
         public RelayCommand<Test> TapCommand => new(async (test) =>
         {

@@ -16,7 +16,7 @@ namespace TestingSystem.Service
 
     public sealed class LocalDbService: ILocalDbService
     {
-        private const string DB_NAME = "sfуwGgF.db3";
+        private const string DB_NAME = "sfуwGgFF.db3";
         private SQLiteConnection _connection;
         private const SQLiteOpenFlags Flags =
             SQLiteOpenFlags.ReadWrite |
@@ -29,40 +29,18 @@ namespace TestingSystem.Service
                 return;
             _connection = new SQLiteConnection(Path.Combine(Microsoft.Maui.Storage.FileSystem.AppDataDirectory, DB_NAME), Flags);
 
-            try
-            {
-                _ = _connection.CreateTable<TestDisplayer>();
-                _ = _connection.CreateTable<AnswerOption>();
-                _ = _connection.CreateTable<Test>();
-                _ = _connection.CreateTable<QuestionTest>();
-                _ = _connection.CreateTable<Category>();
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-               
-                //_ = _connection.CreateTable<VerificationQRCode>();
-                //_ = _connection.CreateTable<MessageText>();
-                //_ = _connection.CreateTable<MailAccount>();
-                //_ = _connection.CreateTable<MailServer>();  
+            _ = _connection.CreateTable<TestDisplayer>();
+            _ = _connection.CreateTable<AnswerOption>();
+            _ = _connection.CreateTable<Test>();
+            _ = _connection.CreateTable<QuestionTest>();
+            _ = _connection.CreateTable<Category>();
         }
 
         public TestDisplayer GetTestDisplayer()
         {
             Init();
             TestDisplayer wholeEvent = null;
-            try
-            {
-                wholeEvent = _connection.GetAllWithChildren<TestDisplayer>(recursive: true).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-
-               
-            }
-            
+            wholeEvent = _connection.GetAllWithChildren<TestDisplayer>(recursive: true).FirstOrDefault();
             if (wholeEvent is null)
             {
                 wholeEvent = new TestDisplayer();
@@ -84,17 +62,9 @@ namespace TestingSystem.Service
 
         public void Create<T>(T value)
         {
-            try
-            {
-                Init();
-                _connection.InsertWithChildren(value, recursive: true);
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
-            
+           Init();
+           _connection.InsertWithChildren(value, recursive: true);
         }
 
         public void Update<T>(T value)
@@ -120,14 +90,7 @@ namespace TestingSystem.Service
         public void Delete<T>(T value)
         {
             Init();
-            try
-            {
-                _connection.Delete(value);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            _connection.Delete(value);
         }
         
     }

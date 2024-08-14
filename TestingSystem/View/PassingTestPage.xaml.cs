@@ -15,7 +15,7 @@ public partial class PassingTestPage : ContentPage
 
     private void Button_Clicked(object sender, EventArgs e)
     {
-		if (_viewModel.StackQuestionTests.Count != 0)
+		if (!_viewModel.IsTestPassed)
 			return;
         TestProgressDisplay.IsVisible = false;
 		TestResultDisplay.IsVisible = true;

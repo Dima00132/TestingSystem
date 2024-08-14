@@ -40,7 +40,7 @@ namespace TestingSystem.ViewModel
         }
      
         [RelayCommand(CanExecute = nameof(CheckName))]
-        public async Task Add(Popup popup)
+        public void Add(Popup popup)
         {
             var newCategory = new Category(Category);
             var newTest = new Test(newCategory, NameTest);

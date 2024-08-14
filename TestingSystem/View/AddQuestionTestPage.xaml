@@ -4,6 +4,7 @@
              x:Class="TestingSystem.View.AddQuestionTestPage"
              xmlns:model = "clr-namespace:TestingSystem.Model"
              xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel"
+             BackgroundColor="#A9A9A9"
              Title="Добавление теста">
     
     <Grid ColumnDefinitions="*,500" Margin="30">
