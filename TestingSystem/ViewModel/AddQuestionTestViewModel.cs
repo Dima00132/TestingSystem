@@ -33,7 +33,7 @@ namespace TestingSystem.ViewModel
         [RelayCommand]
         public  void DeleteAnswerOptions(AnswerOption answerOption)
         {
-            if (QuestionTests.Count < 2)
+            if (Question.AnswerOptions.Count < 2)
             {
                 Application.Current.MainPage.DisplayAlert("Предупреждение", $"Минимальное количество вариантов ответа 2", "ОK");
                 return;
