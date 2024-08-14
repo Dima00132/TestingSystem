@@ -52,6 +52,7 @@ namespace TestingSystem.ViewModel
             if (!string.IsNullOrEmpty(testName) && testName.Length >= 1)
             {
                 var data = await Task.FromResult(_testDisplayer.FindsNameTestByRequest(testName)).ConfigureAwait(false);
+
                 if (data is not null)
                     Tests = new ObservableCollection<Test>(data);
             }
