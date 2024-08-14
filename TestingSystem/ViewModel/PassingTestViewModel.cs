@@ -15,15 +15,19 @@ namespace TestingSystem.ViewModel
         private Test _test;
 
         [ObservableProperty]
-        public Stack<QuestionTest> _questionTests;
+        public Stack<QuestionTest> _stackQuestionTests;
 
         [ObservableProperty]
         private QuestionTest _questionTest;
 
+        //[ObservableProperty]
+        //public bool _isIsVisibleQuestion = true;
+
         [ObservableProperty]
-        public bool _isIsVisibleQuestion = true;
-
-
+        public int _questionNumber = 0;
+        [ObservableProperty]
+        public int _questionTestsCount;
+        
         public PassingTestViewModel(INavigationService navigationService, ILocalDbService localDbService)
         {
             _navigationService = navigationService;
@@ -35,11 +39,12 @@ namespace TestingSystem.ViewModel
         [RelayCommand]
         public void NextQuestion()
         {
-            if (QuestionTests.Count != 0)
+            if (StackQuestionTests.Count != 0)
             {
-                QuestionTest = QuestionTests.Pop();
+                QuestionTest = StackQuestionTests.Pop();
+                QuestionNumber++;
             }
-            IsIsVisibleQuestion = false;
+            //IsIsVisibleQuestion = false;
         }
 
         public override Task OnNavigatingToAsync(object parameter, object parameterSecond = null)
@@ -47,8 +52,9 @@ namespace TestingSystem.ViewModel
             if (parameter is Test test)
             {
                 _test = test;
-                QuestionTests = new Stack<QuestionTest>( test.QuestionTests);
-                QuestionTest = QuestionTests.Pop();
+                StackQuestionTests = new Stack<QuestionTest>( test.QuestionTests);
+                QuestionTestsCount = test.QuestionTests.Count;
+                NextQuestion();
             }
             return base.OnNavigatingToAsync(parameter, parameterSecond);
         }

@@ -37,5 +37,10 @@ namespace TestingSystem.Model
         [ObservableProperty]
         private bool _isSelected;
 
+        public bool CompareAswer()
+        {
+            return IsCorrect == IsSelected;
+        }
+
     }
 }
