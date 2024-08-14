@@ -8,8 +8,6 @@
     <ScrollView>
         <StackLayout>
             <Grid x:Name="TestProgressDisplay" RowDefinitions="25,*,*,80" >
-                <!--<Label Grid.Column="0" HorizontalTextAlignment="Center"
-                  Text="{Binding QuestionTest.AnswerOptions.Count, StringFormat='Вопрос № {0}'}"/>-->
                 <Label Grid.Row="0" HorizontalTextAlignment="Center">
                     <Label.Text>
                         <MultiBinding StringFormat="{}Вопрос № {0} из {1} ">
@@ -22,49 +20,77 @@
                 <Label Grid.Row="1" VerticalOptions="Center" HorizontalTextAlignment="Center"
                   Text="{Binding QuestionTest.Question}"/>
 
-                <Border Grid.Row="2" Margin="30">
-                    <CollectionView 
+                <CollectionView Grid.Row="2" Margin="30"
                    AbsoluteLayout.LayoutFlags="All"
                     ItemsSource="{Binding QuestionTest.AnswerOptions}" >
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="{x:Type model:AnswerOption}">
-                                <Frame Margin="5">
-                                    <Grid ColumnDefinitions="*,100" ColumnSpacing="5" >
-                                        <Label Grid.Column="0" Text="{Binding Answer}"/>
-                                        <CheckBox Grid.Column="1"  CheckedChanged="CheckBox_CheckedChanged"  />
-                                        <!--<CheckBox Grid.Column="1"  IsChecked="{Binding IsSelected}" />-->
-                                    </Grid>
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </Border>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="{x:Type model:AnswerOption}">
+                            <Frame Margin="5">
+                                <Grid ColumnDefinitions="*,100" ColumnSpacing="5" >
+                                    <Label Grid.Column="0" Text="{Binding Answer}" VerticalTextAlignment="Center"/>
+                                    <CheckBox Grid.Column="1"  CheckedChanged="CheckBox_CheckedChanged"  />
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
                 <Button Grid.Row="3" Text="Далее" Command="{Binding NextQuestionCommand}" Clicked="Button_Clicked"/>
-
             </Grid>
+            
 
-            <Grid x:Name="TestResultDisplay" RowDefinitions="25,*,80" >
-                <Label Text="{Binding Statistics}" Grid.Row="0" HorizontalTextAlignment="Center"/>
-
-                <!--<Border Grid.Row="2" Margin="30">
-                    <CollectionView 
-                   AbsoluteLayout.LayoutFlags="All"
-                    ItemsSource="{Binding QuestionTest.AnswerOptions}" >
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="{x:Type model:AnswerOption}">
-                                <Frame Margin="5">
-                                    <Grid ColumnDefinitions="*,100" ColumnSpacing="5" >
-                                        <Label Grid.Column="0" Text="{Binding Answer}"/>
-                                        <CheckBox Grid.Column="1" CheckedChanged="CheckBox_CheckedChanged"    />
-                                        --><!--<CheckBox Grid.Column="1"  IsChecked="{Binding IsSelected}" />--><!--
-                                    </Grid>
-                                </Frame>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </Border>-->
-                <Button Grid.Row="3" Text="Далее" Command="{Binding NextQuestionCommand}" Clicked="Button_Clicked"/>
-
+            <Grid x:Name="TestResultDisplay" 
+                  IsVisible="False" 
+                  RowDefinitions="25,*,80" >
+                <Label Text="{Binding Statistics}" 
+                       Grid.Row="0" 
+                       HorizontalTextAlignment="Center"/>
+                
+                <CollectionView Grid.Row="1" 
+                                Margin="30"
+                                AbsoluteLayout.LayoutFlags="All"
+                                ItemsSource="{Binding PassedTests}" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="{x:Type model:QuestionTest}">
+                            <Frame Margin="5">
+                                <Grid RowDefinitions="*,*" 
+                                      ColumnSpacing="5" >
+                                    
+                                    <Label Grid.Row="0" Text="{Binding Question}" 
+                                           VerticalTextAlignment="Center" 
+                                           HorizontalTextAlignment="Center"/>
+                                    <CollectionView Grid.Row="1" 
+                                                    ItemsSource="{Binding AnswerOptions}" >
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate  x:DataType="{x:Type model:AnswerOption}">
+                                                <StackLayout>
+                                                    <Frame x:Name="frame">
+                                                        <Frame.Triggers>
+                                                            <DataTrigger TargetType="Frame"
+                                                                         Binding="{Binding  Mode=TwoWay, Path=IsCorrectAnswer }" Value="CorrectValue">
+                                                                <Setter  Property="Background" Value="#66ff4d" />
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Frame"
+                                                                         Binding="{Binding Mode=TwoWay, Path=IsCorrectAnswer}" Value="IncorrectValue">
+                                                                <Setter  Property="Background" Value="#ff3b1f" />
+                                                            </DataTrigger>
+                                                        </Frame.Triggers>
+                                                        <Label Text="{Binding Answer}" 
+                                                               VerticalTextAlignment="Center"
+                                                               HorizontalTextAlignment="Center"/>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button Grid.Row="2" 
+                        Text="Выйти" 
+                        Command="{Binding ExitCommand}" 
+                        Clicked="Button_Clicked"/>
             </Grid>
         </StackLayout>
     </ScrollView>

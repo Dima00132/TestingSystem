@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using TestingSystem.Model;
@@ -13,16 +14,14 @@ namespace TestingSystem.ViewModel
         private readonly INavigationService _navigationService;
         private readonly ILocalDbService _localDbService;
         private Test _test;
-
         [ObservableProperty]
         public Stack<QuestionTest> _stackQuestionTests;
-
+        [ObservableProperty]
+        private ObservableCollection<QuestionTest> _passedTests = [];
         [ObservableProperty]
         private QuestionTest _questionTest;
-
         [ObservableProperty]
         public string _statistics;
-
         [ObservableProperty]
         public int _questionNumber = 0;
         [ObservableProperty]
@@ -33,18 +32,23 @@ namespace TestingSystem.ViewModel
             _navigationService = navigationService;
             _localDbService = localDbService;
 
+        }    
+
+        [RelayCommand]
+        public void Exit()
+        {
+            _navigationService.NavigateBack();
         }
 
-        
         [RelayCommand]
         public void NextQuestion()
         {
             if (StackQuestionTests.Count != 0)
             {
                 QuestionTest = StackQuestionTests.Pop();
+                PassedTests.Add(QuestionTest);
                 QuestionNumber++;
-                return;
-                
+                return;  
             }
             Statistics= _test.GetStatistics();
         }
@@ -54,7 +58,7 @@ namespace TestingSystem.ViewModel
             if (parameter is Test test)
             {
                 _test = test;
-                StackQuestionTests = new Stack<QuestionTest>( test.QuestionTests);
+                StackQuestionTests = new Stack<QuestionTest>(test.QuestionTests);
                 QuestionTestsCount = test.QuestionTests.Count;
                 NextQuestion();
             }

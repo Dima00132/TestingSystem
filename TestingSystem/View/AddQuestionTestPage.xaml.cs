@@ -1,3 +1,4 @@
+
 using TestingSystem.Model;
 using TestingSystem.ViewModel;
 
@@ -19,6 +20,21 @@ public partial class AddQuestionTestPage : ContentPage
     {
         var switchSender = sender as Switch;
         if (switchSender is not null && switchSender.BindingContext is AnswerOption answerOption)
-            answerOption.Correct = e.Value?AnswerChoice.Correct:AnswerChoice.NotSelected;
+            answerOption.Correct = e.Value?Selector.CorrectValue:Selector.NoValueSelected;
     }
+
+
+
+    private void Editor_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(_viewModel.Question.Question) &&
+            _viewModel.Question.AnswerOptions.Count(x=>!string.IsNullOrEmpty(x.Answer)) == _viewModel.Question.AnswerOptions.Count)
+        {
+            buttonAdd.IsEnabled = true;
+            return;
+        }
+
+        buttonAdd.IsEnabled = false;
+    }
+
 }

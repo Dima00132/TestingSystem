@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json.Linq;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
@@ -30,7 +31,23 @@ namespace TestingSystem.Model
         public ObservableCollection<Category> Categorys { get; set; } = [];
 
 
+        public TestDisplayer SortedTestById()
+        {
+            Tests = Tests.OrderByDescending((x) => x.TestId).ToObservableCollection();
+            return this;
+        }
 
+        public IEnumerable<Test> FindsNameTestByRequest(string request)
+        {
+            var result = Tests
+                .Where(x => x.NameTest.Length >= request.Length)
+                .Where(x => CompareUser(x.NameTest, request));
+            return result;
+        }
+        private bool CompareUser(string name, string request)
+            => String.Compare(name, 0, request, 0, request.Length, StringComparison.OrdinalIgnoreCase) == 0;
+        public void Remove(Test test) => Tests?.Remove(test);
+        public ObservableCollection<Test> GetTests() => Tests;
         public void AddCategory(Category nameCategory)
         {
             if (Categorys.Contains(nameCategory))

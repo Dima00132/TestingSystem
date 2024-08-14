@@ -18,13 +18,15 @@ namespace TestingSystem.ViewModel
     {
         private readonly INavigationService _navigationService;
         private readonly ILocalDbService _localDbService;
+        private readonly TestDisplayer _testDisplayer;
+
 
         [ObservableProperty]
+        private ObservableCollection<Test> _tests;
 
-        public TestDisplayer _testDisplayer;
         [ObservableProperty]
         private ObservableCollection<string> _categorys;
-
+        
         [ObservableProperty]
         private Category _currentCategory;
 
@@ -32,19 +34,49 @@ namespace TestingSystem.ViewModel
         {
             _navigationService = navigationService;
             _localDbService = localDbService;
-            TestDisplayer = localDbService.GetTestDisplayer();
-            Categorys = TestDisplayer.Categorys.Select(x=>x.NameCategory).ToObservableCollection();
+            _testDisplayer = localDbService.GetTestDisplayer();
+            SortTests(_testDisplayer);
+            Categorys = _testDisplayer.Categorys.Select(x=>x.NameCategory).ToObservableCollection();
+        }
+
+
+        public RelayCommand<string> PerformSearchCommand => new(async (string testName) => await OnSearchTextChangedAsync(testName));
+        private async Task OnSearchTextChangedAsync(object keyword)
+        {
+            var testName = keyword as string;
+            if (string.IsNullOrEmpty(testName))
+            {
+                SortTests(_testDisplayer);
+                return;
+            }
+            if (!string.IsNullOrEmpty(testName) && testName.Length >= 1)
+            {
+                var data = await Task.FromResult(_testDisplayer.FindsNameTestByRequest(testName)).ConfigureAwait(false);
+                if (data is not null)
+                    Tests = new ObservableCollection<Test>(data);
+            }
         }
 
         public RelayCommand AddQuestionTestCommand => new(async () =>
         {
             await _navigationService.NavigateByViewModelAsync<AddQuestionTestViewModel>(_testDisplayer);
+            SortTests(_testDisplayer);
+        });
+
+        public RelayCommand<Test> DeleteCommand => new((test) =>
+        {
+            _testDisplayer.Tests.Remove(test);
+            SortTests(_testDisplayer);
+            _localDbService.Update(_testDisplayer);
         });
         public RelayCommand<Test> TapCommand => new(async (test) =>
         {
-            await _navigationService.NavigateByViewModelAsync<PassingTestViewModel>(test);
+            await _navigationService.NavigateByViewModelAsync<PassingTestViewModel>(test.Clone());
         });
 
- 
+        private void SortTests(TestDisplayer testDisplayer)
+        {
+            Tests = _testDisplayer.SortedTestById().GetTests();
+        }
     }
 }

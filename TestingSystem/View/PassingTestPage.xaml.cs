@@ -27,6 +27,6 @@ public partial class PassingTestPage : ContentPage
      
         var checkBoxSender = sender as CheckBox;
         if (checkBoxSender is not null && checkBoxSender.BindingContext is AnswerOption answerOption)
-            answerOption.Selected = e.Value ? AnswerChoice.Correct : AnswerChoice.NotSelected;
+            answerOption.Selected = e.Value ? Selector.CorrectValue : Selector.NoValueSelected;
     }
 }

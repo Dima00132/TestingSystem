@@ -16,17 +16,12 @@ namespace TestingSystem.ViewModel
         private readonly INavigationService _navigationService;
         private readonly ILocalDbService _localDbService;
         private readonly IPopupService _popupService;
-
         private TestDisplayer _testDisplayer;
-
-
         [ObservableProperty]
-        private QuestionTest _question = new();
-
+        private QuestionTest _question = new() { AnswerOptions = [new AnswerOption(),new AnswerOption()] };
         [ObservableProperty]
         private ObservableCollection<QuestionTest> _questionTests = [];
 
-      
         public AddQuestionTestViewModel(INavigationService navigationService, ILocalDbService localDbService,IPopupService popupService)
         {
             _navigationService = navigationService;
@@ -38,6 +33,11 @@ namespace TestingSystem.ViewModel
         [RelayCommand]
         public  void DeleteAnswerOptions(AnswerOption answerOption)
         {
+            if (QuestionTests.Count < 2)
+            {
+                Application.Current.MainPage.DisplayAlert("Предупреждение", $"Минимальное количество вариантов ответа 2", "ОK");
+                return;
+            }
             Question.AnswerOptions.Remove(answerOption);
         }
 
@@ -45,11 +45,10 @@ namespace TestingSystem.ViewModel
         [RelayCommand]
         public void DeleteQuestionTest(QuestionTest questionTest)
         {
+
             QuestionTests.Remove(questionTest);
         }
 
-
-        
         [RelayCommand]
         public void  AddAnswerOptions()
         {
@@ -59,18 +58,18 @@ namespace TestingSystem.ViewModel
         [RelayCommand]
         public void AddQuestionTest()
         {
-            if(string.IsNullOrEmpty(Question.Question))
-            {
-                Application.Current.MainPage.DisplayAlert("", $"Заполните поле \"Вопрос\"", "ОK");
-                return;
-            }    
             QuestionTests.Add(Question);
-            Question = new QuestionTest();
+            Question =  new() { AnswerOptions = [new AnswerOption(), new AnswerOption()] };
         }
 
+        private void CheckingAnswerOptionForCompletion(ObservableCollection<QuestionTest> questionTests)
+        {
+            for (int i = 0; i < questionTests.Count; i++)
+                if (string.IsNullOrEmpty(questionTests[i].Question))
+                    questionTests.RemoveAt(i);
+        }
 
         [RelayCommand]  
-        
         public async Task Save(ContentPage contentPage)
         {
             if (QuestionTests.Count == 0)
@@ -78,13 +77,10 @@ namespace TestingSystem.ViewModel
                 Application.Current.MainPage.DisplayAlert("", $"Добавьте \"Вопрос\"", "ОK");
                 return;
             }
-
+            CheckingAnswerOptionForCompletion(QuestionTests);
              await _popupService
              .ShowPopupAsync<SavingTestViewModel>(onPresenting: viewModel => viewModel.AddTest( QuestionTests, _localDbService, _testDisplayer))
              .ConfigureAwait(false);
-            // await _navigationService.NavigateBack();
-            
-           // _navigationService.NavigateBack();
         }
 
         public override Task OnNavigatingToAsync(object parameter, object parameterSecond = null)

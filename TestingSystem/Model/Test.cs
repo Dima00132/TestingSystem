@@ -11,9 +11,14 @@ using System.Threading.Tasks;
 namespace TestingSystem.Model
 {
 
+    public interface ICloneable<T> where T : class
+    {
+        public T Clone();
+    }
+
 
     [Table(nameof(Test))]
-    public sealed partial class Test : ObservableObject
+    public sealed partial class Test : ObservableObject,ICloneable<Test>
     {
         [PrimaryKey, AutoIncrement]
         [Column("Id")]
@@ -68,9 +73,18 @@ namespace TestingSystem.Model
 
         public void AddQuestionTest(QuestionTest questionTest)
         {
-            QuestionTests.Add(questionTest);
+            QuestionTests.Insert(0, questionTest);
         }
 
+        public Test Clone()
+        {
+            var testClone = new Test() { Category = Category ,NameTest =NameTest , QuestionTests = new ObservableCollection<QuestionTest>() };
+        
+            foreach (var item in QuestionTests)
+                testClone.QuestionTests.Add(item.Clone());
+
+            return testClone;
+        }
 
         public string GetStatistics()
         {

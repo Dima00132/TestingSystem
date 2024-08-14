@@ -5,16 +5,16 @@ using SQLiteNetExtensions.Attributes;
 
 namespace TestingSystem.Model
 {
-    public enum AnswerChoice
+    public enum Selector
     {
-        Correct,
-        Incorrect,
-        NotSelected
+        CorrectValue,
+        NoValueSelected,
+        IncorrectValue
     }
 
 
     [Table(nameof(AnswerOption))]
-    public sealed partial class AnswerOption:ObservableObject
+    public sealed partial class AnswerOption:ObservableObject, ICloneable<AnswerOption>
     {
         [PrimaryKey, AutoIncrement]
         [Column("Id")]
@@ -25,11 +25,10 @@ namespace TestingSystem.Model
         [ForeignKey(typeof(QuestionTest))]
         public int QuestionTestId { get; set; }
 
-        public AnswerOption(string answer, AnswerChoice correct = AnswerChoice.NotSelected)
+        public AnswerOption(string answer, Selector correct = Selector.NoValueSelected)
         {
             Answer = answer;
             Correct = correct;
-            Selected = AnswerChoice.NotSelected;
         }
 
         public AnswerOption():this("")
@@ -41,11 +40,17 @@ namespace TestingSystem.Model
 
 
         [ObservableProperty]
-        private AnswerChoice _correct;
+        private Selector _correct;
+        
 
-        [ObservableProperty]
-        private AnswerChoice _selected;
-
+        
+        private Selector _selected = Selector.NoValueSelected;
+        [Ignore]
+        public Selector Selected 
+        {
+            get => _selected;
+            set => SetProperty(ref _selected, value);
+        }
 
         //[ObservableProperty]
         //private bool _isCorrect;
@@ -53,10 +58,27 @@ namespace TestingSystem.Model
         //[ObservableProperty]
         //private bool _isSelected;
 
+        private Dictionary<Selector, Func<Selector, Selector, Selector>> keyValuePairs = new()
+        {
+            [Selector.CorrectValue] = (Correct, Selected) => Selector.CorrectValue,
+            [Selector.NoValueSelected] = (Correct, Selected) => Selected == Selector.CorrectValue? Selector.IncorrectValue: Selector.NoValueSelected
+        };
 
 
-        public bool IsCorrectAnswer=> Correct == AnswerChoice.Correct &  Selected == AnswerChoice.Correct;
-      
 
+
+        public Selector IsCorrectAnswer
+        {
+            get
+            {
+                return keyValuePairs[Correct].Invoke(Correct, Selected);
+            }
+            set { }
+        }
+
+        public AnswerOption Clone()
+        {
+            return new AnswerOption(Answer, Correct) { Selected = Selected };
+        }
     }
 }

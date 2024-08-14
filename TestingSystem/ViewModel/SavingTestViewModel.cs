@@ -22,17 +22,13 @@ namespace TestingSystem.ViewModel
         private readonly IPopupService _popupService;
         private readonly INavigationService _navigationService;
         private ILocalDbService _localDbService;
-
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(AddCommand))]
         private string _nameTest;
         [ObservableProperty]
         private string _category;
-
         [ObservableProperty]
         private ObservableCollection<Category> _categorys;
-
-
         private ObservableCollection<QuestionTest> _questionTests;
         private TestDisplayer _testDisplayer;
 

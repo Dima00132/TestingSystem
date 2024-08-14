@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 namespace TestingSystem.Model
 {
     [Table(nameof(QuestionTest))]
-    public sealed partial class QuestionTest : ObservableObject
+    public sealed partial class QuestionTest : ObservableObject, ICloneable<QuestionTest>
     {
         [PrimaryKey, AutoIncrement]
         [Column("Id")]
@@ -30,17 +30,29 @@ namespace TestingSystem.Model
         [ObservableProperty]
         private string _question;
 
+        public QuestionTest()
+        {
+        }
 
         public bool DetermineWhetherAnswerIsCorrectOrNot()
         {
-            var correctAnswers = AnswerOptions.Where(x => x.Correct == AnswerChoice.Correct).ToList();
+            var correctAnswers = AnswerOptions.Where(x => x.Correct == Selector.CorrectValue).ToList();
             var correctNumberCorrectAnswers = correctAnswers.Count;
             var numberCorrectAnswersSelected = 0;
-            foreach (var item in correctAnswers)
-                if (item.IsCorrectAnswer)
+            foreach (var item in AnswerOptions)
+                if (item.Correct == Selector.CorrectValue & item.Selected == Selector.CorrectValue)
                     numberCorrectAnswersSelected++;
     
             return correctNumberCorrectAnswers == numberCorrectAnswersSelected;
+        }
+
+        public QuestionTest Clone()
+        {
+            var cloneQuestionTest = new QuestionTest() { Question = Question };
+            foreach (var item in AnswerOptions)
+                cloneQuestionTest.AnswerOptions.Add(item.Clone());
+          
+            return cloneQuestionTest;
         }
     }
 }

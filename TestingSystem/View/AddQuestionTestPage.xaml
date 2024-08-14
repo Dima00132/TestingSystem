@@ -4,9 +4,9 @@
              x:Class="TestingSystem.View.AddQuestionTestPage"
              xmlns:model = "clr-namespace:TestingSystem.Model"
              xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel"
-             
-             Title="AddQuestionTestPage">
-    <Grid ColumnDefinitions="*,500">
+             Title="Добавление теста">
+    
+    <Grid ColumnDefinitions="*,500" Margin="30">
         <Grid Grid.Column="0">
             <ScrollView>
                 <VerticalStackLayout>
@@ -14,21 +14,23 @@
                         <StackLayout Spacing="5">
                             <Editor Text="{Binding Question.Question}" 
                                     Placeholder ="Вопрос" 
-                                    AutoSize="TextChanges"/>
+                                    AutoSize="TextChanges"
+                                    TextChanged="Editor_TextChanged"/>
                             <CollectionView ItemsSource="{Binding Question.AnswerOptions}" >
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="{x:Type model:AnswerOption}">
                                         <Grid ColumnDefinitions="*,100" ColumnSpacing="5" >
                                                 <Editor Grid.Column="0" Text="{Binding Answer}"
                                                         Placeholder ="Вариант ответа"
-                                                        AutoSize="TextChanges"/>
+                                                        AutoSize="TextChanges"
+                                                        TextChanged="Editor_TextChanged"/>
                                                 <VerticalStackLayout Grid.Column="1" >
                                                     <Label Text="Правильным ответ?" FontSize="10" VerticalOptions="Center"/>
                                                 <Switch    Toggled="Switch_Toggled"  VerticalOptions="Center"/>
                                                 </VerticalStackLayout>
                                                 <FlyoutBase.ContextFlyout>
                                                     <MenuFlyout>
-                                                        <MenuFlyoutItem Text="Удалить" 
+                                                    <MenuFlyoutItem Text="Удалить"
                                                                         Command="{Binding Path=DeleteAnswerOptionsCommand, Source={RelativeSource AncestorType={x:Type viewmodel:AddQuestionTestViewModel}}}"
                                                                         CommandParameter="{Binding .}"/>
                                                     </MenuFlyout>
@@ -38,12 +40,17 @@
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
                             <Frame BorderColor="White">
-                                <Button Text="Add Answer Options"  Command="{Binding AddAnswerOptionsCommand}"/>
+                                <Button  Text="Добавить вариант ответа" 
+                                         Command="{Binding AddAnswerOptionsCommand}"/>
                             </Frame>
                             
                         </StackLayout>
                     </Frame>
-                    <Button Text="Add" Command="{Binding AddQuestionTestCommand}"/>
+                    <Button x:Name="buttonAdd"
+                            Text="Добавить в список вопросов" 
+                            IsEnabled="False"  
+                            Command="{Binding AddQuestionTestCommand}"/>
+
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
@@ -71,7 +78,7 @@
                 </CollectionView>
             </ScrollView>
 
-            <Button Grid.Row="2" Text="Save"  Command="{Binding SaveCommand}"/>
+            <Button Grid.Row="2" Text="Save"   Command="{Binding SaveCommand}"/>
         </Grid>
     </Grid>
 </ContentPage>
