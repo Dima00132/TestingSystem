@@ -22,7 +22,7 @@
                     </SearchBar.Behaviors>
                 </SearchBar>
 
-            <Picker Grid.Column="1"  Title = "Category" ItemsSource="{Binding Categorys}" />
+            <Picker Grid.Column="1" IsVisible="False" Title = "Category" ItemsSource="{Binding Categorys}" />
         
             <Button Grid.Column="2" Text="Добавть тест" Command="{Binding AddQuestionTestCommand}"/>
 

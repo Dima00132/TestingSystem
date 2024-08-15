@@ -51,39 +51,42 @@
                                 ItemsSource="{Binding PassedTests}" >
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="{x:Type model:QuestionTest}">
-                            <Frame Margin="5">
-                                <Grid RowDefinitions="*,*" 
+                            <Border BackgroundColor="White" Margin="15">
+                                <Frame Margin="15" BackgroundColor="White">
+                                    <Grid RowDefinitions="*,*" 
                                       ColumnSpacing="5" >
-                                    
-                                    <Label Grid.Row="0" Text="{Binding Question}" 
+
+                                        <Label Grid.Row="0" Text="{Binding Question}" 
+                                               VerticalOptions="Center"
                                            VerticalTextAlignment="Center" 
                                            HorizontalTextAlignment="Center"/>
-                                    <CollectionView Grid.Row="1" 
+                                        <CollectionView Grid.Row="1" 
                                                     ItemsSource="{Binding AnswerOptions}" >
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate  x:DataType="{x:Type model:AnswerOption}">
-                                                <StackLayout>
-                                                    <Frame x:Name="frame">
-                                                        <Frame.Triggers>
-                                                            <DataTrigger TargetType="Frame"
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate  x:DataType="{x:Type model:AnswerOption}">
+                                                    <StackLayout>
+                                                        <Frame x:Name="frame">
+                                                            <Frame.Triggers>
+                                                                <DataTrigger TargetType="Frame"
                                                                          Binding="{Binding  Mode=TwoWay, Path=IsCorrectAnswer }" Value="CorrectValue">
-                                                                <Setter  Property="Background" Value="#66ff4d" />
-                                                            </DataTrigger>
-                                                            <DataTrigger TargetType="Frame"
+                                                                    <Setter  Property="Background" Value="#66ff4d" />
+                                                                </DataTrigger>
+                                                                <DataTrigger TargetType="Frame"
                                                                          Binding="{Binding Mode=TwoWay, Path=IsCorrectAnswer}" Value="IncorrectValue">
-                                                                <Setter  Property="Background" Value="#ff3b1f" />
-                                                            </DataTrigger>
-                                                        </Frame.Triggers>
-                                                        <Label Text="{Binding Answer}" 
+                                                                    <Setter  Property="Background" Value="#ff3b1f" />
+                                                                </DataTrigger>
+                                                            </Frame.Triggers>
+                                                            <Label Text="{Binding Answer}" 
                                                                VerticalTextAlignment="Center"
                                                                HorizontalTextAlignment="Center"/>
-                                                    </Frame>
-                                                </StackLayout>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
-                                </Grid>
-                            </Frame>
+                                                        </Frame>
+                                                    </StackLayout>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </Grid>
+                                </Frame>
+                            </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

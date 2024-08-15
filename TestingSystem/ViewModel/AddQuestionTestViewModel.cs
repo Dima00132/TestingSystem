@@ -7,7 +7,7 @@ using TestingSystem.Model;
 using TestingSystem.Navigation;
 using TestingSystem.Service.Interface;
 using TestingSystem.ViewModel.Base;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace TestingSystem.ViewModel
 {
@@ -21,6 +21,9 @@ namespace TestingSystem.ViewModel
         private QuestionTest _question = new() { AnswerOptions = [new AnswerOption(),new AnswerOption()] };
         [ObservableProperty]
         private ObservableCollection<QuestionTest> _questionTests = [];
+        public bool IsAnswerOptionsAreFilledIn => CheckingQuestionsFilledOut();
+        public int CountAnswerOptions => Question.AnswerOptions.Count;
+
 
         public AddQuestionTestViewModel(INavigationService navigationService, ILocalDbService localDbService,IPopupService popupService)
         {
@@ -29,11 +32,10 @@ namespace TestingSystem.ViewModel
             _popupService = popupService;
         }
 
-    
         [RelayCommand]
         public  void DeleteAnswerOptions(AnswerOption answerOption)
         {
-            if (Question.AnswerOptions.Count < 2)
+            if (CountAnswerOptions <= 2)
             {
                 Application.Current.MainPage.DisplayAlert("Предупреждение", $"Минимальное количество вариантов ответа 2", "ОK");
                 return;
@@ -60,6 +62,11 @@ namespace TestingSystem.ViewModel
         {
             QuestionTests.Add(Question);
             Question =  new() { AnswerOptions = [new AnswerOption(), new AnswerOption()] };
+        }
+
+        private bool CheckingQuestionsFilledOut()
+        {
+            return CountAnswerOptions >= 2 && Question.AnswerOptions.Count(x => !string.IsNullOrEmpty(x.Answer)) == CountAnswerOptions;
         }
 
         private void CheckingAnswerOptionForCompletion(ObservableCollection<QuestionTest> questionTests)
@@ -91,6 +98,5 @@ namespace TestingSystem.ViewModel
             }
             return base.OnNavigatingToAsync(parameter, parameterSecond);
         }
-
     }
 }
