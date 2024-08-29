@@ -37,10 +37,20 @@ namespace TestingSystem.ViewModel
         {
             if (CountAnswerOptions <= 2)
             {
-                Application.Current.MainPage.DisplayAlert("Предупреждение", $"Минимальное количество вариантов ответа 2", "ОK");
+                Application.Current.MainPage.DisplayAlert("Предупреждение", $"Установлено минимальное количество вариантов ответа", "ОK");
                 return;
             }
             Question.AnswerOptions.Remove(answerOption);
+        }
+
+
+        [RelayCommand]
+        public void EditorQuestionTest(QuestionTest questionTest)
+        {
+
+            Question = questionTest;
+            QuestionTests.Remove(questionTest);
+            
         }
 
 

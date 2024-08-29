@@ -16,7 +16,7 @@ namespace TestingSystem
         {
             builder.Services.AddTransient<AddQuestionTestViewModel>().AddTransient<AddQuestionTestPage>();
             builder.Services.AddTransient<PassingTestViewModel>().AddTransient<PassingTestPage>();
-            builder.Services.AddSingleton<IPopupService, CommunityToolkit.Maui.PopupService>()
+            builder.Services.AddSingleton<IPopupService, PopupService>()
                 .AddTransientPopup<SavingTestPopup, SavingTestViewModel>();
             builder.Services.AddSingleton<ILocalDbService, LocalDbService>();
             builder.Services.AddSingleton<INavigationService, NavigationService>();

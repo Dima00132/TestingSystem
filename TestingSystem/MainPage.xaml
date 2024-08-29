@@ -14,51 +14,58 @@
             <SearchBar Grid.Column="0"   BackgroundColor="#E6E6FA"  HorizontalOptions="Fill"
                            x:Name="CompanySearch"
                            Placeholder="Поиск..">
-                    <SearchBar.Behaviors>
-                        <toolkit:EventToCommandBehavior
+                <SearchBar.Behaviors>
+                    <toolkit:EventToCommandBehavior
                             EventName="TextChanged"
                             Command="{Binding PerformSearchCommand}"
                             CommandParameter="{Binding Text, Source={x:Reference CompanySearch}}"/>
-                    </SearchBar.Behaviors>
-                </SearchBar>
+                </SearchBar.Behaviors>
+            </SearchBar>
 
-            
-        
-            <Button Grid.Column="1" Text="Добавть тест" Command="{Binding AddQuestionTestCommand}"/>
+
+
+            <Button Grid.Column="1" Text="Добавить тест" Command="{Binding AddQuestionTestCommand}"/>
 
         </Grid>
-     
+        <!--SelectionMode="Multiple" SelectedItems="{Binding Selected}"-->
 
         <ScrollView Grid.Row="2" Margin="15">
             <CollectionView 
                       AbsoluteLayout.LayoutFlags="All"
-                      ItemsSource="{Binding Tests}" SelectionMode="Multiple" SelectedItems="{Binding Selected}" >
+                      ItemsSource="{Binding Tests}"  >
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type model:Test}">
 
-                        <Frame BackgroundColor="#E6E6FA" Margin="15" >
+                        <Frame  Margin="15" >
                             <StackLayout Padding="5">
-                                <Label Text="{Binding NameTest}"/>
-                                <FlyoutBase.ContextFlyout>
+                                <Grid ColumnDefinitions="*,150,150" ColumnSpacing="5">
+                                    <Label Grid.Column="0" FontSize="15" Text="{Binding NameTest}"/>
+                                    <Button Grid.Column="1" VerticalOptions="Start" Text="Пройти тест"
+                                            Command="{Binding Path=TapCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"
+                                            CommandParameter="{Binding .}" />
+                                    <ImageButton Source="delete.png" Grid.Column="2" VerticalOptions="Start"
+                                            Command="{Binding Path=DeleteCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"
+                                            CommandParameter="{Binding .}"/>
+                                </Grid>
+                                <!--<Label Text="{Binding NameTest}"/>
+                                --><!--<FlyoutBase.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Text="Пройти тест" 
                                                         Command="{Binding Path=TapCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"
                                                         CommandParameter="{Binding .}"/>
-                                        <MenuFlyoutItem Text="Пройти выбранные тесты" IsDestructive="False"
-                                                        Command="{Binding Path=RunSelectedTestsCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"/>
+                                        --><!--<MenuFlyoutItem Text="Пройти выбранные тесты"  IsDestructive="False"
+                                                        Command="{Binding Path=RunSelectedTestsCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"/>--><!--
                                         <MenuFlyoutItem Text="Удалить" 
                                                         Command="{Binding Path=DeleteCommand, Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}}"
                                                         CommandParameter="{Binding .}"/>
                                     </MenuFlyout>
-                                </FlyoutBase.ContextFlyout>
+                                </FlyoutBase.ContextFlyout--><!-->-->
                             </StackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-               
+
             </CollectionView>
         </ScrollView>
-
     </Grid>
-
 </ContentPage>

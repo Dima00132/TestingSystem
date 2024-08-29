@@ -20,7 +20,7 @@
                             <CollectionView ItemsSource="{Binding Question.AnswerOptions}"  >
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="{x:Type model:AnswerOption}">
-                                        <Grid ColumnDefinitions="*,100" ColumnSpacing="5" Padding="2" >
+                                        <Grid ColumnDefinitions="*,100,80" ColumnSpacing="5" Padding="2" >
                                             <Editor Grid.Column="0" Text="{Binding Answer}"
                                                         Placeholder ="Вариант ответа"
                                                         AutoSize="TextChanges"
@@ -29,14 +29,20 @@
                                                 <Label Text="Правильный ответ?" FontSize="10" VerticalOptions="Center"/>
                                                 <CheckBox  CheckedChanged="CheckBox_CheckedChanged" HorizontalOptions="Center"  VerticalOptions="Center"/>
                                             </VerticalStackLayout>
-                                            <FlyoutBase.ContextFlyout>
+
+                                            <ImageButton Source="delete.png" Grid.Column="2"  
+                                                    Clicked="MenuFlyoutItem_Clicked"
+                                                                        Command="{Binding Path=DeleteAnswerOptionsCommand, Source={RelativeSource AncestorType={x:Type viewmodel:AddQuestionTestViewModel}}}"
+                                                                        CommandParameter="{Binding .}" />
+
+                                            <!--<FlyoutBase.ContextFlyout>
                                                 <MenuFlyout>
                                                     <MenuFlyoutItem Text="Удалить" 
                                                                     Clicked="MenuFlyoutItem_Clicked"
                                                                         Command="{Binding Path=DeleteAnswerOptionsCommand, Source={RelativeSource AncestorType={x:Type viewmodel:AddQuestionTestViewModel}}}"
                                                                         CommandParameter="{Binding .}"/>
                                                 </MenuFlyout>
-                                            </FlyoutBase.ContextFlyout>
+                                            </FlyoutBase.ContextFlyout>-->
                                         </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
@@ -56,23 +62,34 @@
                     IsEnabled="{Binding IsAnswerOptionsAreFilledIn}" 
                     Command="{Binding AddQuestionTestCommand}"/>
         </Grid>
-        <Grid Grid.Column="1" RowDefinitions="*,50" ColumnSpacing="5">
+        <Grid Grid.Column="1" RowDefinitions="*,50" ColumnSpacing="2">
            <!-- <Label Text="{Binding QuestionTests.Count ,StringFormat='Вопосов {0}'}" FontSize="Micro" HorizontalOptions="Center" />-->
             <ScrollView Grid.Row="0">
                 <CollectionView ItemsSource="{Binding QuestionTests}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="{x:Type model:QuestionTest}">
                             <Frame>
-                                <StackLayout>
-                                    <Label Text="{Binding Question}"/>
-                                    <FlyoutBase.ContextFlyout>
+                                <Grid ColumnDefinitions="*,60,60">
+                                    <Label Grid.Column="0" FontSize="15" Text="{Binding Question}"/>
+                                    <ImageButton Source="editor.png" Grid.Column="1"
+              HorizontalOptions="Start"
+              VerticalOptions="Start"
+              Command="{Binding Path=EditorQuestionTestCommand, Source={RelativeSource AncestorType={x:Type viewmodel:AddQuestionTestViewModel}}}"
+              CommandParameter="{Binding .}"/>
+                                    <ImageButton Source="delete.png" Grid.Column="2"
+                                                 HorizontalOptions="Start"
+                                                 VerticalOptions="Start"
+                                                 Command="{Binding Path=DeleteQuestionTestCommand, Source={RelativeSource AncestorType={x:Type viewmodel:AddQuestionTestViewModel}}}"
+                                                 CommandParameter="{Binding .}"/>
+                                    
+                                    <!--<FlyoutBase.ContextFlyout>
                                         <MenuFlyout>
                                             <MenuFlyoutItem Text="Удалить" 
                         Command="{Binding Path=DeleteQuestionTestCommand, Source={RelativeSource AncestorType={x:Type viewmodel:AddQuestionTestViewModel}}}"
                         CommandParameter="{Binding .}"/>
                                         </MenuFlyout>
-                                    </FlyoutBase.ContextFlyout>
-                                </StackLayout>
+                                    </FlyoutBase.ContextFlyout>-->
+                                </Grid>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

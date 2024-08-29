@@ -17,7 +17,7 @@
                     </Label.Text>
                 </Label>
 
-                <Label Grid.Row="1" VerticalOptions="Center" HorizontalTextAlignment="Center"
+                <Label Grid.Row="1" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                   Text="{Binding QuestionTest.Question}" FontSize="Medium"/>
 
                 <CollectionView Grid.Row="2" Margin="30"
@@ -43,6 +43,7 @@
                   RowDefinitions="25,*,50" >
                 <Label Text="{Binding Statistics}" 
                        Grid.Row="0" 
+                       FontSize="19"
                        HorizontalTextAlignment="Center"/>
                 
                 <CollectionView Grid.Row="1" 
@@ -56,8 +57,9 @@
                                     <Grid RowDefinitions="*,*" 
                                       ColumnSpacing="5" >
 
-                                        <Label Grid.Row="0" Text="{Binding Question}" 
+                                        <Label Grid.Row="0" Margin="15" FontSize="Medium" Text="{Binding Question}" 
                                                VerticalOptions="Center"
+                                               HorizontalOptions="Center"
                                            VerticalTextAlignment="Center" 
                                            HorizontalTextAlignment="Center"/>
                                         <CollectionView Grid.Row="1" 
