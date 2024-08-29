@@ -7,9 +7,9 @@
              BackgroundColor="#A9A9A9"
              Title="Добавление теста">
     
-    <Grid ColumnDefinitions="*,500" Margin="30">
-        <Grid Grid.Column="0">
-            <ScrollView>
+    <Grid ColumnDefinitions="*,500" Margin="30" ColumnSpacing="15">
+        <Grid Grid.Column="0" RowDefinitions="*,50" RowSpacing="5">
+            <ScrollView Grid.Row="0">
                 <VerticalStackLayout>
                     <Frame>
                         <StackLayout Spacing="5">
@@ -17,27 +17,27 @@
                                     Placeholder ="Вопрос" 
                                     AutoSize="TextChanges"
                                     TextChanged="Editor_TextChangedQuestion"/>
-                            <CollectionView ItemsSource="{Binding Question.AnswerOptions}" >
+                            <CollectionView ItemsSource="{Binding Question.AnswerOptions}"  >
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="{x:Type model:AnswerOption}">
-                                        <Grid ColumnDefinitions="*,100" ColumnSpacing="5" >
-                                                <Editor Grid.Column="0" Text="{Binding Answer}"
+                                        <Grid ColumnDefinitions="*,100" ColumnSpacing="5" Padding="2" >
+                                            <Editor Grid.Column="0" Text="{Binding Answer}"
                                                         Placeholder ="Вариант ответа"
                                                         AutoSize="TextChanges"
                                                         TextChanged="Editor_TextChanged"/>
-                                                <VerticalStackLayout Grid.Column="1" >
-                                                    <Label Text="Правильным ответ?" FontSize="10" VerticalOptions="Center"/>
-                                                <Switch    Toggled="Switch_Toggled"  VerticalOptions="Center"/>
-                                                </VerticalStackLayout>
-                                                <FlyoutBase.ContextFlyout>
-                                                    <MenuFlyout>
+                                            <VerticalStackLayout Grid.Column="1" >
+                                                <Label Text="Правильный ответ?" FontSize="10" VerticalOptions="Center"/>
+                                                <CheckBox  CheckedChanged="CheckBox_CheckedChanged" HorizontalOptions="Center"  VerticalOptions="Center"/>
+                                            </VerticalStackLayout>
+                                            <FlyoutBase.ContextFlyout>
+                                                <MenuFlyout>
                                                     <MenuFlyoutItem Text="Удалить" 
                                                                     Clicked="MenuFlyoutItem_Clicked"
                                                                         Command="{Binding Path=DeleteAnswerOptionsCommand, Source={RelativeSource AncestorType={x:Type viewmodel:AddQuestionTestViewModel}}}"
                                                                         CommandParameter="{Binding .}"/>
-                                                    </MenuFlyout>
-                                                </FlyoutBase.ContextFlyout>
-                                            </Grid>
+                                                </MenuFlyout>
+                                            </FlyoutBase.ContextFlyout>
+                                        </Grid>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
@@ -45,20 +45,20 @@
                                 <Button  Text="Добавить вариант ответа" 
                                          Command="{Binding AddAnswerOptionsCommand}"/>
                             </Frame>
-                            
+
                         </StackLayout>
                     </Frame>
-                    <Button x:Name="buttonAdd"
-                            Text="Добавить в список вопросов" 
-                            IsEnabled="{Binding IsAnswerOptionsAreFilledIn}"  
-                            Command="{Binding AddQuestionTestCommand}"/>
-
                 </VerticalStackLayout>
             </ScrollView>
+            <Button x:Name="buttonAdd"
+                    Grid.Row="1"
+                    Text="Добавить"
+                    IsEnabled="{Binding IsAnswerOptionsAreFilledIn}" 
+                    Command="{Binding AddQuestionTestCommand}"/>
         </Grid>
-        <Grid Grid.Column="1" RowDefinitions="20,*,50" ColumnSpacing="5">
-            <Label Text="{Binding QuestionTests.Count ,StringFormat='Вопосов {0}'}" FontSize="Micro" HorizontalOptions="Center" />
-            <ScrollView Grid.Row="1">
+        <Grid Grid.Column="1" RowDefinitions="*,50" ColumnSpacing="5">
+           <!-- <Label Text="{Binding QuestionTests.Count ,StringFormat='Вопосов {0}'}" FontSize="Micro" HorizontalOptions="Center" />-->
+            <ScrollView Grid.Row="0">
                 <CollectionView ItemsSource="{Binding QuestionTests}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="{x:Type model:QuestionTest}">
@@ -80,7 +80,7 @@
                 </CollectionView>
             </ScrollView>
 
-            <Button Grid.Row="2" Text="Save"   Command="{Binding SaveCommand}"/>
+            <Button Grid.Row="1" Text="Сохранить"   Command="{Binding SaveCommand}"/>
         </Grid>
     </Grid>
 </ContentPage>

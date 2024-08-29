@@ -42,4 +42,12 @@ public partial class AddQuestionTestPage : ContentPage
     {
         ChangeIsEnabledButtonAdd(_viewModel.CountAnswerOptions >= 2 & _viewModel.IsAnswerOptionsAreFilledIn);
     }
+
+    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        var switchSender = sender as CheckBox;
+        if (switchSender is not null && switchSender.BindingContext is AnswerOption answerOption)
+            answerOption.Correct = e.Value ? Selector.CorrectValue : Selector.NoValueSelected;
+
+    }
 }

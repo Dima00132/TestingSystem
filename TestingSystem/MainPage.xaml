@@ -10,8 +10,8 @@
     <Grid RowDefinitions ="50,80,*" Margin="15">
         <Label Grid.Row="0" Text="Выбор тестов" HorizontalTextAlignment="Center" FontSize="Title"/>
 
-        <Grid Grid.Row="1" ColumnDefinitions="*,*,*"  ColumnSpacing="5" Margin="15">
-            <SearchBar Grid.Column="0"  BackgroundColor="#E6E6FA"  HorizontalOptions="Center"
+        <Grid Grid.Row="1" ColumnDefinitions="*,200"  ColumnSpacing="15" Margin="15">
+            <SearchBar Grid.Column="0"   BackgroundColor="#E6E6FA"  HorizontalOptions="Fill"
                            x:Name="CompanySearch"
                            Placeholder="Поиск..">
                     <SearchBar.Behaviors>
@@ -22,21 +22,21 @@
                     </SearchBar.Behaviors>
                 </SearchBar>
 
-            <Picker Grid.Column="1" IsVisible="False" Title = "Category" ItemsSource="{Binding Categorys}" />
+            
         
-            <Button Grid.Column="2" Text="Добавть тест" Command="{Binding AddQuestionTestCommand}"/>
+            <Button Grid.Column="1" Text="Добавть тест" Command="{Binding AddQuestionTestCommand}"/>
 
         </Grid>
      
 
-        <ScrollView Grid.Row="2" Margin="30">
+        <ScrollView Grid.Row="2" Margin="15">
             <CollectionView 
                       AbsoluteLayout.LayoutFlags="All"
                       ItemsSource="{Binding Tests}" SelectionMode="Multiple" SelectedItems="{Binding Selected}" >
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type model:Test}">
 
-                        <Frame BackgroundColor="#E6E6FA" Margin="15">
+                        <Frame BackgroundColor="#E6E6FA" Margin="15" >
                             <StackLayout Padding="5">
                                 <Label Text="{Binding NameTest}"/>
                                 <FlyoutBase.ContextFlyout>
