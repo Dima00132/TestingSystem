@@ -43,6 +43,15 @@ namespace TestingSystem.Model
             set { }
         }
 
+        public bool IsCorrect
+        {
+            get
+            {
+                return Correct == Selector.CorrectValue;
+            }
+            set { }
+        }
+
         public AnswerOption(string answer, Selector correct = Selector.NoValueSelected)
         {
             Answer = answer;

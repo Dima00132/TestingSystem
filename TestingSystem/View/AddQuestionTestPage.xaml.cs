@@ -5,6 +5,7 @@ namespace TestingSystem.View;
 public partial class AddQuestionTestPage : ContentPage
 {
 	private readonly AddQuestionTestViewModel _viewModel;
+    private const int MIN_COUNT = 2;
 	public AddQuestionTestPage(AddQuestionTestViewModel viewModel)
 	{
 		InitializeComponent();
@@ -12,12 +13,6 @@ public partial class AddQuestionTestPage : ContentPage
         _viewModel = viewModel;
     }
 
-    private void Switch_Toggled(object sender, ToggledEventArgs e)
-    {
-        var switchSender = sender as Switch;
-        if (switchSender is not null && switchSender.BindingContext is AnswerOption answerOption)
-            answerOption.Correct = e.Value?Selector.CorrectValue:Selector.NoValueSelected;
-    }
     private void Editor_TextChangedQuestion(object sender, TextChangedEventArgs e)
     {
         CheckingTextChanges(_viewModel.Question.Question);
@@ -36,18 +31,21 @@ public partial class AddQuestionTestPage : ContentPage
 
     private void ChangeIsEnabledButtonAdd(bool isEnabled)
     {
-        buttonAdd.IsEnabled = isEnabled;
+        
+        buttonAdd.IsEnabled = isEnabled ;
     }
     private void MenuFlyoutItem_Clicked(object sender, EventArgs e)
     {
-        ChangeIsEnabledButtonAdd(_viewModel.CountAnswerOptions >= 2 & _viewModel.IsAnswerOptionsAreFilledIn);
+        ChangeIsEnabledButtonAdd(_viewModel.CountAnswerOptions >= MIN_COUNT & _viewModel.IsAnswerOptionsAreFilledIn);
     }
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         var switchSender = sender as CheckBox;
         if (switchSender is not null && switchSender.BindingContext is AnswerOption answerOption)
+        {
             answerOption.Correct = e.Value ? Selector.CorrectValue : Selector.NoValueSelected;
-
+            ChangeIsEnabledButtonAdd(_viewModel.IsAnswerOptionsAreFilledIn);
+        }
     }
 }

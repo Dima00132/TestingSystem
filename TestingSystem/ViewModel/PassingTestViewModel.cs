@@ -1,17 +1,22 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using TestingSystem.Model;
 using TestingSystem.Navigation;
+using TestingSystem.Service.ExcelServise;
 using TestingSystem.Service.Interface;
 using TestingSystem.ViewModel.Base;
+using CommunityToolkit.Maui.Storage;
+using CommunityToolkit.Maui.Alerts;
 
 namespace TestingSystem.ViewModel
 {
     public sealed partial class PassingTestViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
+        private readonly IRecordExcel _recordXlsx;
         private readonly ILocalDbService _localDbService;
         private Test _test;
         [ObservableProperty]
@@ -35,9 +40,10 @@ namespace TestingSystem.ViewModel
         private int _wrongAnswer = 0;
 
 
-        public PassingTestViewModel(INavigationService navigationService, ILocalDbService localDbService)
+        public PassingTestViewModel(INavigationService navigationService, IRecordExcel recordXlsx, ILocalDbService localDbService)
         {
             _navigationService = navigationService;
+            _recordXlsx = recordXlsx;
             _localDbService = localDbService;
         }    
 
@@ -46,6 +52,35 @@ namespace TestingSystem.ViewModel
         {
             _navigationService.NavigateBack();
         }
+
+        [RelayCommand]
+        public async void ExportToExcel()
+        {
+
+            var fullName =  await Application.Current.MainPage.DisplayPromptAsync("", $"Введите Ваше имя и фамилию", "ОK","Отмена");
+            if (string.IsNullOrEmpty(fullName))
+                return;
+            RecordXlsx(fullName);
+        }
+
+        private async void RecordXlsx(string fullName)
+        {
+            using var stream = new MemoryStream();
+            var fileSaveResult = await FileSaver.Default.SaveAsync("NameFile.xlsx", stream);
+            if (fileSaveResult.IsSuccessful)
+            {
+                try
+                {
+                    _recordXlsx.Record(null, fileSaveResult.FilePath);
+                }
+                catch (Exception ex)
+                {
+                    Application.Current.MainPage.DisplayAlert("Ошибка", ex.Message, "Ок");
+                }
+                Application.Current.MainPage.DisplayAlert("Файл сохранен!", $"{fileSaveResult.FilePath}", "Ок");
+            }
+        }
+
 
         [RelayCommand]
         public void NextQuestion()
@@ -58,7 +93,6 @@ namespace TestingSystem.ViewModel
                 return;  
             }
             IsTestPassed = true;
-            //Statistics = _test.GetStatistics();
             CorrectAnswer = _test.QuestionTests.Count(x => x.DetermineWhetherAnswerIsCorrectOrNot());
             var count = QuestionTestsCount;
             WrongAnswer = count - CorrectAnswer;

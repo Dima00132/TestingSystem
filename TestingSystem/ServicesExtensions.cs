@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using TestingSystem.Navigation;
 using TestingSystem.Service;
+using TestingSystem.Service.ExcelServise;
 using TestingSystem.Service.Interface;
 using TestingSystem.View;
 
@@ -18,6 +19,7 @@ namespace TestingSystem
             builder.Services.AddTransient<PassingTestViewModel>().AddTransient<PassingTestPage>();
             builder.Services.AddSingleton<IPopupService, PopupService>()
                 .AddTransientPopup<SavingTestPopup, SavingTestViewModel>();
+            builder.Services.AddTransient<IRecordExcel, RecordExcel>();
             builder.Services.AddSingleton<ILocalDbService, LocalDbService>();
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<MainViewModel>();

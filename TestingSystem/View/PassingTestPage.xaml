@@ -46,7 +46,7 @@
 
             <Grid x:Name="TestResultDisplay" 
                   IsVisible="False" 
-                  RowDefinitions="*,*,50" >
+                  RowDefinitions="*,*,70" >
                 <VerticalStackLayout Grid.Row="0" >
                     <Label Text="{Binding QuestionTestsCount,StringFormat='Количество вопросов {0}'}" 
                            TextColor="Black"
@@ -119,12 +119,25 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Button Grid.Row="2" 
-                        Text="Выйти" 
-                        VerticalOptions="Center"
-                        Margin="350,0,350,0"
-                        Command="{Binding ExitCommand}" 
-                        Clicked="Button_Clicked"/>
+                <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button Grid.Column="0" 
+                            Text="Выйти" 
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Command="{Binding ExitCommand}" 
+                            WidthRequest="350"
+                            HeightRequest="50"
+                            Clicked="Button_Clicked"/>
+                    <Button Grid.Column="1" 
+                            Text="Экспорт EXCEL" 
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            WidthRequest="350"
+                            HeightRequest="50"
+                            BackgroundColor="#1d6c41"
+                            Command="{Binding ExportToExcelCommand}" />
+                </Grid>
+                
             </Grid>
         </StackLayout>
     </ScrollView>

@@ -76,7 +76,9 @@ namespace TestingSystem.ViewModel
 
         private bool CheckingQuestionsFilledOut()
         {
-            return CountAnswerOptions >= 2 && Question.AnswerOptions.Count(x => !string.IsNullOrEmpty(x.Answer)) == CountAnswerOptions;
+            return CountAnswerOptions >= 2 
+                && Question.AnswerOptions.Count(x => !string.IsNullOrEmpty(x.Answer)) == CountAnswerOptions
+                & Question.AnswerOptions.Count(x => x.Correct == Selector.CorrectValue) !=0;
         }
 
         private void CheckingAnswerOptionForCompletion(ObservableCollection<QuestionTest> questionTests)
