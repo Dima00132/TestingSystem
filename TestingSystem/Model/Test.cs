@@ -88,17 +88,22 @@ namespace TestingSystem.Model
 
         public string GetStatistics()
         {
-            var correctAnswer = 0;
-            var wrongAnswer = 0;
-            foreach (var item in QuestionTests)
-            {
-                if(item.DetermineWhetherAnswerIsCorrectOrNot())
-                {
-                    correctAnswer++;
-                    continue;
-                }
-                wrongAnswer++;
-            }
+            //var correctAnswer = 0;
+            //var wrongAnswer = 0;
+            //foreach (var item in QuestionTests)
+            //{
+            //    if(item.DetermineWhetherAnswerIsCorrectOrNot())
+            //    {
+            //        correctAnswer++;
+            //        continue;
+            //    }
+            //    wrongAnswer++;
+            //}
+
+            var correctAnswer = QuestionTests.Count(x=>x.DetermineWhetherAnswerIsCorrectOrNot());
+            var count = QuestionTests.Count();
+            var wrongAnswer = count - correctAnswer;
+
             return $"Всего вопросов было {QuestionTests.Count} из них правильных {correctAnswer} не правильных {wrongAnswer}";
         }
 

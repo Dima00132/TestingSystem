@@ -28,12 +28,17 @@ namespace TestingSystem.ViewModel
         public int _questionNumber = 0;
         [ObservableProperty]
         public int _questionTestsCount;
-        
+
+        [ObservableProperty]
+        private int _correctAnswer = 0;
+        [ObservableProperty]
+        private int _wrongAnswer = 0;
+
+
         public PassingTestViewModel(INavigationService navigationService, ILocalDbService localDbService)
         {
             _navigationService = navigationService;
             _localDbService = localDbService;
-
         }    
 
         [RelayCommand]
@@ -53,7 +58,10 @@ namespace TestingSystem.ViewModel
                 return;  
             }
             IsTestPassed = true;
-            Statistics = _test.GetStatistics();
+            //Statistics = _test.GetStatistics();
+            CorrectAnswer = _test.QuestionTests.Count(x => x.DetermineWhetherAnswerIsCorrectOrNot());
+            var count = QuestionTestsCount;
+            WrongAnswer = count - CorrectAnswer;
         }
 
         public override Task OnNavigatingToAsync(object parameter, object parameterSecond = null)

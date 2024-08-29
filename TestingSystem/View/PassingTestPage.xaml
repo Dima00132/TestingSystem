@@ -4,17 +4,23 @@
              x:Class="TestingSystem.View.PassingTestPage"
              xmlns:model = "clr-namespace:TestingSystem.Model"
              xmlns:viewmodel ="clr-namespace:TestingSystem.ViewModel"
-             BackgroundColor="#A9A9A9">
+             >
     <ScrollView>
         <StackLayout>
             <Grid x:Name="TestProgressDisplay" RowDefinitions="25,*,*,50" >
                 <Label Grid.Row="0" HorizontalTextAlignment="Center">
-                    <Label.Text>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding QuestionNumber ,StringFormat='Вопрос № {0}'}" TextColor="Black"/>
+                            <Span Text="{Binding QuestionTestsCount ,StringFormat='{} из {0} '}" TextColor="Black"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                    <!--<Label.Text>
                         <MultiBinding StringFormat="{}Вопрос № {0} из {1} ">
                             <Binding Path="QuestionNumber" Mode="TwoWay" />
                             <Binding Path="QuestionTestsCount"  Mode="TwoWay" />
                         </MultiBinding>
-                    </Label.Text>
+                    </Label.Text>-->
                 </Label>
 
                 <Label Grid.Row="1" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
@@ -25,7 +31,7 @@
                     ItemsSource="{Binding QuestionTest.AnswerOptions}" >
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="{x:Type model:AnswerOption}">
-                            <Frame Margin="20">
+                            <Frame Margin="20" BackgroundColor="#f0f8ff">
                                 <Grid ColumnDefinitions="*,100" ColumnSpacing="5" >
                                     <Label Grid.Column="0" Text="{Binding Answer}"  VerticalTextAlignment="Center"/>
                                     <CheckBox Grid.Column="1"  CheckedChanged="CheckBox_CheckedChanged"  />
@@ -40,11 +46,34 @@
 
             <Grid x:Name="TestResultDisplay" 
                   IsVisible="False" 
-                  RowDefinitions="25,*,50" >
-                <Label Text="{Binding Statistics}" 
-                       Grid.Row="0" 
-                       FontSize="19"
-                       HorizontalTextAlignment="Center"/>
+                  RowDefinitions="*,*,50" >
+                <VerticalStackLayout Grid.Row="0" >
+                    <Label Text="{Binding QuestionTestsCount,StringFormat='Количество вопросов {0}'}" 
+                           TextColor="Black"
+                           FontSize="19"
+                           HorizontalTextAlignment="Center"/>
+
+                    <Label FontSize="19"
+                           HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Правильных - " TextColor="Black"/>
+                                <Span Text="{Binding CorrectAnswer ,StringFormat='{0}'}" TextColor="Green"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label FontSize="19"
+       HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Не правильных - " TextColor="Black"/>
+                                <Span Text="{Binding WrongAnswer ,StringFormat='{0}'}" TextColor="Red"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </VerticalStackLayout>
+
                 
                 <CollectionView Grid.Row="1" 
                                 Margin="30"
@@ -52,43 +81,41 @@
                                 ItemsSource="{Binding PassedTests}" >
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="{x:Type model:QuestionTest}">
-                            <Border BackgroundColor="White" Margin="15">
-                                <Frame Margin="15" BackgroundColor="White">
-                                    <Grid RowDefinitions="*,*" 
-                                      ColumnSpacing="5" >
+                            <Frame Margin="15" BackgroundColor="#f0f8ff">
+                                <Grid RowDefinitions="*,*" 
+                                      ColumnSpacing="10" >
 
-                                        <Label Grid.Row="0" Margin="15" FontSize="Medium" Text="{Binding Question}" 
+                                    <Label Grid.Row="0" Margin="15" FontSize="Medium" Text="{Binding Question}" 
                                                VerticalOptions="Center"
                                                HorizontalOptions="Center"
                                            VerticalTextAlignment="Center" 
                                            HorizontalTextAlignment="Center"/>
-                                        <CollectionView Grid.Row="1" 
+                                    <CollectionView Grid.Row="1" 
                                                     ItemsSource="{Binding AnswerOptions}" >
-                                            <CollectionView.ItemTemplate>
-                                                <DataTemplate  x:DataType="{x:Type model:AnswerOption}">
-                                                    <StackLayout>
-                                                        <Frame x:Name="frame">
-                                                            <Frame.Triggers>
-                                                                <DataTrigger TargetType="Frame"
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate  x:DataType="{x:Type model:AnswerOption}">
+                                                <StackLayout>
+                                                    <Frame x:Name="frame">
+                                                        <Frame.Triggers>
+                                                            <DataTrigger TargetType="Frame"
                                                                          Binding="{Binding  Mode=TwoWay, Path=IsCorrectAnswer }" Value="CorrectValue">
-                                                                    <Setter  Property="Background" Value="#66ff4d" />
-                                                                </DataTrigger>
-                                                                <DataTrigger TargetType="Frame"
+                                                                <Setter  Property="Background" Value="#66ff4d" />
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Frame"
                                                                          Binding="{Binding Mode=TwoWay, Path=IsCorrectAnswer}" Value="IncorrectValue">
-                                                                    <Setter  Property="Background" Value="#ff3b1f" />
-                                                                </DataTrigger>
-                                                            </Frame.Triggers>
-                                                            <Label Text="{Binding Answer}" 
+                                                                <Setter  Property="Background" Value="#ff3b1f" />
+                                                            </DataTrigger>
+                                                        </Frame.Triggers>
+                                                        <Label Text="{Binding Answer}" 
                                                                VerticalTextAlignment="Center"
                                                                HorizontalTextAlignment="Center"/>
-                                                        </Frame>
-                                                    </StackLayout>
-                                                </DataTemplate>
-                                            </CollectionView.ItemTemplate>
-                                        </CollectionView>
-                                    </Grid>
-                                </Frame>
-                            </Border>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </Grid>
+                            </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
